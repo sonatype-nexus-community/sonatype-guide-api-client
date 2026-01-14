@@ -1,0 +1,9 @@
+'!include': 'common.yaml'
+outputDir: /local/out/typescript
+generatorName: typescript-fetch
+additionalProperties:
+  licenseName: "Apache-2.0"
+  prefixParameterInterfaces: true
+  npmName: "@sonatype/sonatype-guide-api-client"
+  supportsES6: true
+  withInterfaces: false

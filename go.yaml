@@ -1,0 +1,8 @@
+'!include': 'common.yaml'
+outputDir: /local/out/go
+generatorName: go
+gitRepoId: sonatype-guide-api-client-go
+additionalProperties:
+  goImportAlias: sonatypeguide
+  isGoSubmodule: true
+  packageName: v1

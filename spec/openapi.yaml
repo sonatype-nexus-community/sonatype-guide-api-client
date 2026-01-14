@@ -1,0 +1,2533 @@
+components:
+  schemas:
+    AffectedComponentVersion:
+      properties:
+        ecosystem:
+          type: string
+        fullPackageName:
+          type: string
+        namespace:
+          type: string
+        packageName:
+          type: string
+        version:
+          type: string
+      type: object
+    ApiSearchResponse:
+      properties:
+        aggregations:
+          additionalProperties:
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
+          type: object
+        hits:
+          items: {}
+          type: array
+        limit:
+          format: int32
+          type: integer
+        offset:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+      type: object
+    ApiSearchResponseAffectedComponentVersion:
+      properties:
+        aggregations:
+          additionalProperties:
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
+          type: object
+        hits:
+          items:
+            $ref: '#/components/schemas/AffectedComponentVersion'
+          type: array
+        limit:
+          format: int32
+          type: integer
+        offset:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+      type: object
+    ApiSearchResponseComponentDetailDocument:
+      properties:
+        aggregations:
+          additionalProperties:
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
+          type: object
+        hits:
+          items:
+            $ref: '#/components/schemas/ComponentDetailDocument'
+          type: array
+        limit:
+          format: int32
+          type: integer
+        offset:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+      type: object
+    ApiSearchResponseComponentDocument:
+      properties:
+        aggregations:
+          additionalProperties:
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
+          type: object
+        hits:
+          items:
+            $ref: '#/components/schemas/ComponentDocument'
+          type: array
+        limit:
+          format: int32
+          type: integer
+        offset:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+      type: object
+    ApiSearchResponseVulnerabilityDocument:
+      properties:
+        aggregations:
+          additionalProperties:
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
+          type: object
+        hits:
+          items:
+            $ref: '#/components/schemas/VulnerabilityDocument'
+          type: array
+        limit:
+          format: int32
+          type: integer
+        offset:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+      type: object
+    BillingDTO:
+      properties:
+        billingPeriodEnd:
+          format: date
+          type: string
+        billingPeriodStart:
+          format: date
+          type: string
+        monthlyCost:
+          format: double
+          type: number
+        paymentMethod:
+          type: string
+        status:
+          enum:
+          - FUTURE
+          - IN_TRIAL
+          - ACTIVE
+          - NON_RENEWING
+          - PAUSED
+          - CANCELLED
+          - TRANSFERRED
+          type: string
+      type: object
+    BillingPeriod:
+      properties:
+        endDate:
+          format: date
+          type: string
+        startDate:
+          format: date
+          type: string
+      type: object
+    BillingPeriodsResponse:
+      properties:
+        currentPeriod:
+          $ref: '#/components/schemas/BillingPeriod'
+        periods:
+          items:
+            $ref: '#/components/schemas/BillingPeriod'
+          type: array
+      type: object
+    BulkRemoveMembersRequest:
+      properties:
+        emails:
+          items:
+            format: email
+            type: string
+          minItems: 1
+          type: array
+      required:
+      - emails
+      type: object
+    ComponentArtifact:
+      properties:
+        classifier:
+          type: string
+        extension:
+          type: string
+        publishedDate:
+          format: date-time
+          type: string
+        refids:
+          items:
+            $ref: '#/components/schemas/Refid'
+          type: array
+        sha1:
+          type: string
+      type: object
+    ComponentDetailDocument:
+      properties:
+        categories:
+          items:
+            type: string
+          type: array
+        components:
+          items:
+            $ref: '#/components/schemas/ComponentArtifact'
+          type: array
+        directDependencies:
+          items:
+            type: string
+          type: array
+        format:
+          type: string
+        isMalware:
+          type: boolean
+        latestStable:
+          type: boolean
+        licenses:
+          items:
+            $ref: '#/components/schemas/ComponentLicense'
+          type: array
+        maxCvss:
+          format: double
+          type: number
+        name:
+          type: string
+        namespace:
+          type: string
+        originId:
+          type: string
+        publishedDate:
+          format: date-time
+          type: string
+        registryLink:
+          type: string
+        version:
+          type: string
+        versionScore:
+          format: int32
+          type: integer
+      type: object
+    ComponentDocument:
+      properties:
+        categories:
+          items:
+            type: string
+          type: array
+        format:
+          type: string
+        isMalware:
+          type: boolean
+        latestStable:
+          type: boolean
+        licenses:
+          items:
+            $ref: '#/components/schemas/ComponentLicense'
+          type: array
+        maxCvss:
+          format: double
+          type: number
+        name:
+          type: string
+        namespace:
+          type: string
+        originId:
+          type: string
+        publishedDate:
+          format: date-time
+          type: string
+        registryLink:
+          type: string
+        version:
+          type: string
+        versionScore:
+          format: int32
+          type: integer
+      type: object
+    ComponentLicense:
+      properties:
+        licenseName:
+          type: string
+        licenseThreatGroup:
+          type: string
+        licenseThreatLevel:
+          format: int32
+          type: integer
+      type: object
+    ComponentReport_Get:
+      properties:
+        coordinates:
+          type: string
+        description:
+          type: string
+        reference:
+          type: string
+        sonatypeOssiScore:
+          format: double
+          type: number
+        vulnerabilities:
+          items:
+            $ref: '#/components/schemas/OssiVulnerability_Post'
+          type: array
+      type: object
+    ComponentReport_Post:
+      properties:
+        coordinates:
+          type: string
+        description:
+          type: string
+        reference:
+          type: string
+        vulnerabilities:
+          items:
+            $ref: '#/components/schemas/OssiVulnerability_Post'
+          type: array
+      type: object
+    CreateTokenRequest:
+      properties:
+        daysUntilExpiration:
+          format: int32
+          type: integer
+        name:
+          minLength: 1
+          type: string
+      required:
+      - daysUntilExpiration
+      - name
+      type: object
+    CreditBalance:
+      properties:
+        creditsRemaining:
+          format: int32
+          type: integer
+        creditsUsed:
+          format: int32
+          type: integer
+        periodEnd:
+          format: date
+          type: string
+        periodStart:
+          format: date
+          type: string
+        planTier:
+          enum:
+          - FREE
+          - PRO
+          - ENTERPRISE
+          - TEAM
+          type: string
+        resetDate:
+          format: date
+          type: string
+        status:
+          enum:
+          - under_limit
+          - approaching_limit
+          - over_limit
+          - abuse_limit
+          type: string
+        totalCredits:
+          format: int32
+          type: integer
+        usagePercentage:
+          format: int32
+          type: integer
+      type: object
+    CreditUsage:
+      properties:
+        percentage:
+          format: int32
+          type: integer
+        periodEnd:
+          format: date
+          type: string
+        periodStart:
+          format: date
+          type: string
+        total:
+          format: int32
+          type: integer
+        used:
+          format: int32
+          type: integer
+      type: object
+    CumulativeCreditUsage:
+      properties:
+        creditLimit:
+          format: int32
+          type: integer
+        dailyAverage:
+          format: int32
+          type: integer
+        dailyUsage:
+          items:
+            $ref: '#/components/schemas/DailyCreditUsage'
+          type: array
+        peakDay:
+          format: int32
+          type: integer
+        totalCreditsUsed:
+          format: int32
+          type: integer
+      type: object
+    CurrentUserOrganizationResponse:
+      properties:
+        isOwner:
+          type: boolean
+        logo:
+          type: string
+        name:
+          type: string
+        people:
+          format: int32
+          type: integer
+        plan:
+          $ref: '#/components/schemas/OrganizationPlanDTO'
+        slug:
+          type: string
+        url:
+          type: string
+        usage:
+          format: int32
+          type: integer
+        usageDetail:
+          $ref: '#/components/schemas/OrganizationUsageDTO'
+      type: object
+    CustomerInfo:
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+      type: object
+    DailyCreditUsage:
+      properties:
+        cumulativeUsage:
+          format: int32
+          type: integer
+        dailyUsage:
+          format: int32
+          type: integer
+        date:
+          format: date
+          type: string
+      type: object
+    FromVersion:
+      properties:
+        breakingChangesCount:
+          type: string
+        developerTrustScore:
+          format: int32
+          type: integer
+        directVulnerabilities:
+          additionalProperties:
+            format: double
+            type: number
+          type: object
+        licenseThreatLevels:
+          additionalProperties:
+            format: int32
+            type: integer
+          type: object
+        maxSeverity:
+          format: double
+          type: number
+        transitiveVulnerabilities:
+          additionalProperties:
+            format: double
+            type: number
+          type: object
+        version:
+          type: string
+        vulnerableMethods:
+          items:
+            $ref: '#/components/schemas/VulnerableMethod'
+          type: array
+      type: object
+    InviteUsersRequest:
+      properties:
+        emails:
+          items:
+            format: email
+            type: string
+          minItems: 1
+          type: array
+      required:
+      - emails
+      type: object
+    Invoice:
+      properties:
+        amount:
+          format: double
+          type: number
+        date:
+          format: date
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        pdfUrl:
+          type: string
+        status:
+          type: string
+        totalCredits:
+          format: double
+          type: number
+        usedCredits:
+          format: double
+          type: number
+      type: object
+    OrganizationBillingDTO:
+      properties:
+        monthlyCost:
+          format: double
+          type: number
+        nextBilling:
+          type: string
+        paymentMethod:
+          type: string
+      type: object
+    OrganizationDTOv2:
+      properties:
+        isOwner:
+          type: boolean
+        logo:
+          type: string
+        name:
+          type: string
+        people:
+          format: int32
+          type: integer
+        slug:
+          type: string
+        url:
+          type: string
+      type: object
+    OrganizationMembersResponse:
+      properties:
+        avatar:
+          type: string
+        email:
+          type: string
+        invitedHistory:
+          items:
+            format: date-time
+            type: string
+          type: array
+        joinedAt:
+          format: date-time
+          type: string
+        lastActive:
+          format: date-time
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - INVITED
+          - EXPIRED
+          type: string
+      type: object
+    OrganizationPlanDTO:
+      properties:
+        apiCallsLimit:
+          format: int32
+          type: integer
+        billing:
+          $ref: '#/components/schemas/OrganizationBillingDTO'
+        mcpCallsLimit:
+          format: int32
+          type: integer
+        name:
+          type: string
+        seaworthySaasSearchesLimit:
+          format: int32
+          type: integer
+      type: object
+    OrganizationResponse:
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        logoUrl:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        status:
+          type: string
+        url:
+          type: string
+      type: object
+    OrganizationUsageDTO:
+      properties:
+        apiCalls:
+          format: int32
+          type: integer
+        mcpCalls:
+          format: int32
+          type: integer
+        seaworthySaasSearches:
+          format: int32
+          type: integer
+      type: object
+    OssiVulnerability_Post:
+      properties:
+        cve:
+          type: string
+        cvssScore:
+          format: double
+          type: number
+        cvssVector:
+          type: string
+        cwe:
+          type: string
+        description:
+          type: string
+        displayName:
+          type: string
+        externalReferences:
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        reference:
+          type: string
+        title:
+          type: string
+      type: object
+    PeriodDTO:
+      properties:
+        end:
+          format: date
+          type: string
+        start:
+          format: date
+          type: string
+      type: object
+    Plan:
+      properties:
+        billing:
+          type: string
+        credits:
+          format: int32
+          type: integer
+        isFreePlan:
+          type: boolean
+        name:
+          type: string
+        nextBill:
+          format: date
+          type: string
+        price:
+          format: double
+          type: number
+        status:
+          type: string
+      type: object
+    PlanDTOv2:
+      properties:
+        billingPeriod:
+          enum:
+          - PER_MONTH
+          - PER_YEAR
+          type: string
+        chargebeeItemId:
+          type: string
+        displayName:
+          type: string
+        isCurrentPlan:
+          type: boolean
+        monthlyCredits:
+          format: int32
+          type: integer
+        planTier:
+          enum:
+          - FREE
+          - PRO
+          - ENTERPRISE
+          - TEAM
+          type: string
+        price:
+          format: double
+          type: number
+      type: object
+    PlanInfo:
+      properties:
+        chargebeeItemId:
+          type: string
+        credits:
+          format: int32
+          type: integer
+        isCurrentPlan:
+          type: boolean
+        name:
+          type: string
+        tier:
+          type: string
+      type: object
+    PlansResponse:
+      properties:
+        plans:
+          items:
+            $ref: '#/components/schemas/PlanInfo'
+          type: array
+      type: object
+    PurlRequest_Post:
+      properties:
+        coordinates:
+          items:
+            type: string
+          type: array
+      required:
+      - coordinates
+      type: object
+    RecommendationRequest:
+      description: Request body containing the component PURL
+      properties:
+        purl:
+          minLength: 1
+          type: string
+      required:
+      - purl
+      type: object
+    RecommendationResponse:
+      properties:
+        fromVersion:
+          $ref: '#/components/schemas/FromVersion'
+        toVersions:
+          items:
+            $ref: '#/components/schemas/RecommendedVersion'
+          type: array
+      type: object
+    RecommendedVersion:
+      properties:
+        breakingChangesCount:
+          type: string
+        developerTrustScore:
+          format: int32
+          type: integer
+        directVulnerabilities:
+          additionalProperties:
+            format: double
+            type: number
+          type: object
+        licenseThreatLevels:
+          additionalProperties:
+            format: int32
+            type: integer
+          type: object
+        transitiveVulnerabilities:
+          additionalProperties:
+            format: double
+            type: number
+          type: object
+        version:
+          type: string
+        vulnerableMethods:
+          items:
+            $ref: '#/components/schemas/VulnerableMethod'
+          type: array
+      type: object
+    Reference:
+      properties:
+        link:
+          type: string
+        type:
+          type: string
+      type: object
+    Refid:
+      properties:
+        isMalware:
+          type: boolean
+        refid:
+          type: string
+        severity:
+          format: double
+          type: number
+      type: object
+    SubscriptionDetailsResponse:
+      properties:
+        creditUsage:
+          $ref: '#/components/schemas/CreditUsage'
+        plan:
+          $ref: '#/components/schemas/Plan'
+      type: object
+    UpdateOrganizationRequest:
+      properties:
+        logoUrl:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+      type: object
+    UsageDTO:
+      properties:
+        creditsTotal:
+          format: int32
+          type: integer
+        creditsUsed:
+          format: int32
+          type: integer
+        currentPeriod:
+          $ref: '#/components/schemas/PeriodDTO'
+      type: object
+    UserTokenDTO:
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUsedAt:
+          format: date-time
+          type: string
+        name:
+          type: string
+        userId:
+          format: int64
+          type: integer
+      type: object
+    UserTokenWithPlaintextDTO:
+      properties:
+        plaintextToken:
+          type: string
+        tokenDTO:
+          $ref: '#/components/schemas/UserTokenDTO'
+      type: object
+    VulnerabilityDetailDocument:
+      properties:
+        affectedComponentVersionsCount:
+          format: int32
+          type: integer
+        affectedEcosystems:
+          items:
+            type: string
+          type: array
+        aliases:
+          items:
+            type: string
+          type: array
+        cvssSeverity:
+          format: double
+          type: number
+        cvssVector:
+          type: string
+        cwes:
+          items:
+            type: string
+          type: array
+        detection:
+          type: string
+        epss:
+          format: double
+          type: number
+        explanation:
+          type: string
+        isMalware:
+          type: boolean
+        kev:
+          type: boolean
+        publishedAt:
+          format: date-time
+          type: string
+        recommendation:
+          type: string
+        references:
+          items:
+            $ref: '#/components/schemas/Reference'
+          type: array
+        researchType:
+          type: string
+        sonatypeCvssSeverity:
+          format: double
+          type: number
+        sonatypeCwes:
+          items:
+            type: string
+          type: array
+        source:
+          type: string
+        summary:
+          type: string
+        vulnId:
+          type: string
+        vulnerableMethods:
+          items:
+            $ref: '#/components/schemas/VulnerableMethod'
+          type: array
+      type: object
+    VulnerabilityDocument:
+      properties:
+        affectedEcosystems:
+          items:
+            type: string
+          type: array
+        aliases:
+          items:
+            type: string
+          type: array
+        cvssSeverity:
+          format: double
+          type: number
+        cwes:
+          items:
+            type: string
+          type: array
+        epss:
+          format: double
+          type: number
+        isMalware:
+          type: boolean
+        kev:
+          type: boolean
+        publishedAt:
+          format: date-time
+          type: string
+        researchType:
+          type: string
+        sonatypeCvssSeverity:
+          format: double
+          type: number
+        sonatypeCwes:
+          items:
+            type: string
+          type: array
+        source:
+          type: string
+        summary:
+          type: string
+        vulnId:
+          type: string
+      type: object
+    VulnerableMethod:
+      properties:
+        signature:
+          type: string
+        type:
+          type: string
+        vulnerableParameters:
+          items:
+            format: int32
+            type: integer
+          type: array
+      type: object
+  securitySchemes:
+    bearer-jwt:
+      bearerFormat: JWT
+      description: JWT Bearer Token Authentication
+      scheme: bearer
+      type: http
+info:
+  contact:
+    name: Sonatype Community Maintainers
+    url: https://github.com/sonatype-nexus-community
+  description: REST API into [Sonatype Guide](https://guide.sonatype.com).
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Sonatype Guide API
+  version: '202601'
+openapi: 3.1.0
+paths:
+  /api/v3/authorized/component-report:
+    post:
+      operationId: getComponentReports_1
+      parameters:
+      - in: header
+        name: User-Agent
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurlRequest_Post'
+          application/vnd.ossindex.component-report-request.v1+json:
+            schema:
+              $ref: '#/components/schemas/PurlRequest_Post'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: OK
+      tags:
+      - ossi-controller
+  /api/v3/authorized/component-report/**:
+    get:
+      operationId: getComponentReport
+      parameters:
+      - in: header
+        name: User-Agent
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: OK
+      tags:
+      - ossi-controller
+  /api/v3/component-report:
+    post:
+      operationId: getComponentReports
+      parameters:
+      - in: header
+        name: User-Agent
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurlRequest_Post'
+          application/vnd.ossindex.component-report-request.v1+json:
+            schema:
+              $ref: '#/components/schemas/PurlRequest_Post'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: OK
+      tags:
+      - ossi-controller
+  /api/v3/component-report/**:
+    get:
+      operationId: getComponentReport_1
+      parameters:
+      - in: header
+        name: User-Agent
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: OK
+      tags:
+      - ossi-controller
+  /api/v3/version:
+    get:
+      deprecated: true
+      operationId: getVersion
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      tags:
+      - ossi-controller
+  /billing/customer:
+    get:
+      description: Retrieves the current user's customer profile information. Returns
+        the customer ID and associated email address for billing purposes.
+      operationId: getCustomerInfo
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example:
+                  customer:
+                    email: test@test.com
+                    id: 169q4nUvkKuNOMVk
+                type: string
+          description: Customer information retrieved successfully
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerInfo'
+          description: User is not an organization owner and cannot access billing
+            information
+      summary: Get customer information
+      tags:
+      - Billing
+  /billing/invoices:
+    get:
+      description: Retrieves the complete invoice history for the current user. Returns
+        a list of all invoices with details including invoice ID, date, description,
+        amount, payment status, PDF link, and credit usage for each billing period.
+      operationId: getUserInvoiceHistory
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example:
+                  invoices:
+                  - amount: 1200.0
+                    creditsTotal: 5000
+                    creditsUsed: 3000
+                    date: '2024-10-31'
+                    description: Teams Plan (Annual)
+                    id: inv_2024_001
+                    pdfUrl: /invoices/inv_2024_001.pdf
+                    status: paid
+                type: string
+          description: Invoice history retrieved successfully
+        '403':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Invoice'
+                type: array
+          description: User is not an organization owner and cannot access billing
+            information
+      summary: Get user invoice history
+      tags:
+      - Billing
+  /billing/plans:
+    get:
+      description: Retrieves all available subscription plans including plan tier,
+        display name, monthly credits, and Chargebee item ID. The user's current active
+        plan is marked with isCurrentPlan flag. Supports both FREE users (with direct
+        subscription) and PAID users (with organization subscription).
+      operationId: getPlans
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example:
+                  plans:
+                  - chargebeeItemId: null
+                    credits: 500
+                    isCurrentPlan: false
+                    name: Free
+                    tier: FREE
+                  - chargebeeItemId: Guide-Team-USD-Yearly
+                    credits: 5000
+                    isCurrentPlan: true
+                    name: Team
+                    tier: TEAM
+                  - chargebeeItemId: Guide-Pro-USD-Yearly
+                    credits: 25000
+                    isCurrentPlan: false
+                    name: Pro
+                    tier: PRO
+                type: string
+          description: Plans information retrieved successfully
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+          description: Subscription not found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+          description: Internal server error
+      summary: Get all available plans with current plan marked
+      tags:
+      - Billing
+  /billing/subscription:
+    get:
+      description: Retrieves the current user's subscription plan and credit usage
+        information. Returns the active plan details including pricing, credit limits,
+        and current usage statistics with billing period dates.
+      operationId: getUserSubscription
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example:
+                  creditUsage:
+                    percentage: 65
+                    periodEnd: '2025-11-09'
+                    periodStart: '2025-10-10'
+                    total: 5000
+                    used: 3250
+                  plan:
+                    cancelAtPeriodEnd: false
+                    credits: 5000
+                    interval: per month
+                    name: Free (Personal)
+                    price: 0
+                    status: active
+                type: string
+          description: Subscription details retrieved successfully
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsResponse'
+          description: User is not an organization owner and cannot access billing
+            information
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDetailsResponse'
+          description: Organization or subscription not found
+      summary: Get user subscription details
+      tags:
+      - Billing
+  /billing/v2:
+    get:
+      description: Retrieves billing details including cost, period, and payment method
+      operationId: getBillingV2
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingDTO'
+          description: Billing info retrieved
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingDTO'
+          description: User is not an organization owner
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingDTO'
+          description: Subscription not found
+      summary: Get billing information (v2)
+      tags:
+      - Billing
+  /billing/v2/plans:
+    get:
+      description: Retrieves all subscription plans with current plan marked
+      operationId: getPlansV2
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PlanDTOv2'
+                type: array
+          description: Plans retrieved
+        '404':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PlanDTOv2'
+                type: array
+          description: Subscription not found
+      summary: Get all available plans (v2)
+      tags:
+      - Billing
+  /components/dependencies:
+    get:
+      description: Retrieves all direct dependencies of a specific component using
+        explicit coordinate parameters (format, namespace, name, version). Returns
+        full component details for each dependency with comprehensive filtering by
+        format, category, CVSS severity, and license. Namespace is optional for some
+        formats
+      operationId: getComponentDependenciesByPurlQueryParam
+      parameters:
+      - description: URL-encoded PURL (e.g., pkg%3Amaven%2F...)
+        in: query
+        name: purl
+        required: true
+        schema:
+          type: string
+      - description: Text search query (searches name, namespace, refid)
+        in: query
+        name: query
+        required: false
+        schema:
+          type: string
+      - description: 'Pagination offset (default: 0)'
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Pagination limit (default: 20)'
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Field to sort by (default: name)'
+        in: query
+        name: sortField
+        required: false
+        schema:
+          type: string
+      - description: 'Sort order: asc or desc (default: asc)'
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          type: string
+      - description: Format filter (e.g., maven, npm, pypi) - repeatable
+        in: query
+        name: formats
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Category filter (e.g., Logging, Framework) - repeatable
+        in: query
+        name: categories
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: CVSS severity filter (e.g., critical, high) - repeatable
+        in: query
+        name: severities
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Minimum CVSS score (0.0 to 10.0)
+        in: query
+        name: minCvss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Maximum CVSS score (0.0 to 10.0)
+        in: query
+        name: maxCvss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Minimum version score (0 to 100)
+        in: query
+        name: minVersionScore
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: Maximum version score (0 to 100)
+        in: query
+        name: maxVersionScore
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: Licence family filter (e.g., Banned, Copyleft) - repeatable
+        in: query
+        name: licenseFamilies
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Licence name filter (e.g., MIT, Apache-2.0, GPL-3.0+) - repeatable
+        in: query
+        name: licenses
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: 'Filter by latest stable versions: ''true'' for stable only,
+          ''false'' for non-stable only, ''all'' for no filter'
+        in: query
+        name: latestStable
+        required: false
+        schema:
+          type: string
+      - description: Package format (e.g., maven, npm, pypi)
+        in: query
+        name: format
+        required: true
+        schema:
+          type: string
+      - description: Package namespace/groupId (optional)
+        in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - description: Package name
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Package version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponse'
+          description: Dependencies found
+        '400':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseComponentDocument'
+          description: Invalid parameters
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseComponentDocument'
+          description: Component not found
+      summary: Get dependencies for a component by coordinates (query parameters)
+      tags:
+      - Components
+  /components/detail:
+    get:
+      description: Retrieves detailed information about a specific component using
+        explicit coordinate parameters (format, namespace, name, version). Namespace
+        is optional for some formats
+      operationId: getComponentDetailByPurlQueryParam
+      parameters:
+      - description: URL-encoded PURL (e.g., pkg%3Amaven%2F...)
+        in: query
+        name: purl
+        required: true
+        schema:
+          type: string
+      - description: Package format (e.g., maven, npm, pypi)
+        in: query
+        name: format
+        required: true
+        schema:
+          type: string
+      - description: Package namespace/groupId (optional)
+        in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - description: Package name
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Package version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComponentDetailDocument'
+          description: Component found
+        '400':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComponentDetailDocument'
+          description: Invalid parameters
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComponentDetailDocument'
+          description: Component not found
+      summary: Get component detail by coordinates (query parameters)
+      tags:
+      - Components
+  /components/versions:
+    get:
+      description: Retrieves all versions of a component using explicit coordinate
+        parameters (format, namespace, name, version). Returns all versions EXCEPT
+        the version specified. Namespace is optional for some formats
+      operationId: getComponentVersionsByPurlQueryParam
+      parameters:
+      - description: URL-encoded PURL (e.g., pkg%3Amaven%2F...)
+        in: query
+        name: purl
+        required: true
+        schema:
+          type: string
+      - description: 'Pagination offset (default: 0)'
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Pagination limit (default: 20)'
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Field to sort by (default: version)'
+        in: query
+        name: sortField
+        required: false
+        schema:
+          type: string
+      - description: 'Sort order: asc or desc (default: desc)'
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          type: string
+      - description: CVSS severity filter (e.g., critical, high) - repeatable
+        in: query
+        name: severities
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Minimum CVSS score (0.0 to 10.0)
+        in: query
+        name: minCvss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Maximum CVSS score (0.0 to 10.0)
+        in: query
+        name: maxCvss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Minimum version score (0 to 100)
+        in: query
+        name: minVersionScore
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: Maximum version score (0 to 100)
+        in: query
+        name: maxVersionScore
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: Filter versions by version prefix (e.g., '2.10' matches '2.10.0',
+          '2.10.1', '2.10-RC1')
+        in: query
+        name: versionQuery
+        required: false
+        schema:
+          type: string
+      - description: Time window for published date (e.g., 7d, 30d, 60d, 90d, 6m,
+          1y, 2y)
+        in: query
+        name: publishedWindow
+        required: false
+        schema:
+          type: string
+      - description: Malware filter (true=has malware, false=no malware)
+        in: query
+        name: hasMalware
+        required: false
+        schema:
+          type: boolean
+      - description: Stable version filter (true=stable only, false=pre-release only,
+          null=all)
+        in: query
+        name: isStable
+        required: false
+        schema:
+          type: boolean
+      - description: Package format (e.g., maven, npm, pypi)
+        in: query
+        name: format
+        required: true
+        schema:
+          type: string
+      - description: Package namespace/groupId (optional)
+        in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - description: Package name
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Package version to exclude from results
+        in: query
+        name: version
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponse'
+          description: Component versions found
+        '400':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseComponentDetailDocument'
+          description: Invalid parameters
+      summary: Get all component versions by coordinates (query parameters)
+      tags:
+      - Components
+  /components/vulnerabilities:
+    get:
+      description: Retrieves all vulnerabilities affecting a specific component using
+        explicit coordinate parameters (format, namespace, name, version). Supports
+        comprehensive filtering by severity, CVSS score, CWE, and more. Namespace
+        is optional for some formats
+      operationId: getComponentVulnerabilitiesByPurlQueryParam
+      parameters:
+      - description: URL-encoded PURL (e.g., pkg%3Amaven%2F...)
+        in: query
+        name: purl
+        required: true
+        schema:
+          type: string
+      - description: 'Pagination offset (default: 0)'
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Pagination limit (default: 20)'
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Field to sort by (default: cvssSeverity)'
+        in: query
+        name: sortField
+        required: false
+        schema:
+          type: string
+      - description: 'Sort order: asc or desc (default: desc)'
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          type: string
+      - description: Severity filter (e.g., critical, high) - repeatable
+        in: query
+        name: severities
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Minimum CVSS score (0.0 to 10.0)
+        in: query
+        name: minCvss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Maximum CVSS score (0.0 to 10.0)
+        in: query
+        name: maxCvss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Minimum EPSS score (0.0 to 1.0)
+        in: query
+        name: minEpss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Maximum EPSS score (0.0 to 1.0)
+        in: query
+        name: maxEpss
+        required: false
+        schema:
+          format: double
+          type: number
+      - description: Malware flag filter (true=has malware, false=no malware)
+        in: query
+        name: hasMalware
+        required: false
+        schema:
+          type: boolean
+      - description: Patch availability filter (true=available, false=not available)
+        in: query
+        name: patchAvailable
+        required: false
+        schema:
+          type: boolean
+      - description: Policy compliance filter (true=compliant, false=non-compliant)
+        in: query
+        name: policyCompliant
+        required: false
+        schema:
+          type: boolean
+      - description: CWE filter (e.g., CWE-79, CWE-89) - repeatable
+        in: query
+        name: cwes
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: KEV filter - known exploited vulnerability
+        in: query
+        name: exploitationKnown
+        required: false
+        schema:
+          type: boolean
+      - description: Time window for published date (e.g., 30d, 1y)
+        in: query
+        name: publishedWindow
+        required: false
+        schema:
+          type: string
+      - description: Package format (e.g., maven, npm, pypi)
+        in: query
+        name: format
+        required: true
+        schema:
+          type: string
+      - description: Package namespace/groupId (optional)
+        in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - description: Package name
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Package version
+        in: query
+        name: version
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponse'
+          description: Vulnerabilities found
+        '400':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseVulnerabilityDocument'
+          description: Invalid parameters
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseVulnerabilityDocument'
+          description: Component not found
+      summary: Get vulnerabilities for a component by coordinates (query parameters)
+      tags:
+      - Components
+  /credits/usage/breakdown:
+    get:
+      description: Retrieves the credit usage breakdown for the current period for
+        the authenticated user. Returns total credits used and breakdown by lookup
+        type (MCP, component, vulnerability).
+      operationId: getCreditUsageBreakdown
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example:
+                  current_period:
+                    component_lookups: 43
+                    mcp_lookups: 2
+                    total_credits_used: 50
+                    vulnerability_lookups: 5
+                  subject: org_123
+                type: string
+          description: Credit usage breakdown retrieved successfully
+      security:
+      - bearer-jwt: []
+      summary: Get credit usage breakdown
+      tags:
+      - Credits
+  /credits/usage/history:
+    get:
+      description: Retrieves the daily credit usage history for the authenticated
+        user. Returns a list of daily usage with breakdown by lookup type (MCP, component,
+        vulnerability) for the specified billing period.
+      operationId: getCreditUsageHistory
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example:
+                  history:
+                  - component_lookups: 40
+                    credits_used: 45
+                    date: '2025-10-29'
+                    mcp_lookups: 2
+                    vulnerability_lookups: 3
+                  period_end: '2025-11-01'
+                  period_start: '2025-10-01'
+                  subject: org_123
+                type: string
+          description: Credit usage history retrieved successfully
+      security:
+      - bearer-jwt: []
+      summary: Get credit usage history
+      tags:
+      - Credits
+  /recommendations:
+    post:
+      description: Retrieves AI-powered version upgrade recommendations for a component
+        specified by PURL. Analyzes security vulnerabilities, stability metrics, and
+        policy compliance to suggest optimal upgrade paths.
+      operationId: getRecommendations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendationRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RecommendationResponse'
+          description: Recommendations found
+        '400':
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: Invalid request - PURL is required
+        '404':
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: No recommendations found for the specified component
+      summary: Get version upgrade recommendations
+      tags:
+      - Recommendations
+  /usage:
+    get:
+      description: Retrieves the current credit balance for the authenticated user.
+        Returns remaining credits, used credits, monthly allotment, usage percentage,
+        and billing period information.
+      operationId: getCreditBalance
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreditBalance'
+          description: Credit balance retrieved successfully
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreditBalance'
+          description: User or subscription not found
+        '500':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreditBalance'
+          description: Internal server error
+      security:
+      - bearer-jwt: []
+      summary: Get credit balance
+      tags:
+      - Usage
+  /usage/billing-periods:
+    get:
+      description: Retrieves the last 6 monthly billing periods (30 days each) for
+        the authenticated user. Periods are calculated based on subscription start
+        date. Supports both FREE and PAID users.
+      operationId: getBillingPeriods
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                currentPeriod:
+                  endDate: '2025-11-09'
+                  startDate: '2025-10-10'
+                periods:
+                - endDate: '2025-11-09'
+                  startDate: '2025-10-10'
+                - endDate: '2025-10-09'
+                  startDate: '2025-09-10'
+          description: Billing periods retrieved successfully
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingPeriodsResponse'
+          description: Subscription not found
+      security:
+      - bearer-jwt: []
+      summary: Get billing periods for user
+      tags:
+      - Usage
+  /usage/cumulative:
+    get:
+      description: Retrieves daily credit usage with cumulative totals and statistics
+        for the specified billing period. Includes total credits used, daily average,
+        peak day, and credit limit. Supports both FREE and PAID users.
+      operationId: getCumulativeUsage
+      parameters:
+      - description: Start date (YYYY-MM-DD)
+        example: '2025-10-10'
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+      - description: End date (YYYY-MM-DD)
+        example: '2025-11-09'
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                billingPeriod:
+                  endDate: '2025-11-09'
+                  startDate: '2025-10-10'
+                creditLimit: 5000
+                dailyAverage: 194
+                dailyUsage:
+                - cumulativeUsage: 178
+                  dailyUsage: 178
+                  date: '2025-10-10'
+                - cumulativeUsage: 381
+                  dailyUsage: 203
+                  date: '2025-10-11'
+                peakDay: 248
+                totalCreditsUsed: 6004
+          description: Credit usage retrieved successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CumulativeCreditUsage'
+          description: Invalid date format
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CumulativeCreditUsage'
+          description: Subscription not found
+      security:
+      - bearer-jwt: []
+      summary: Get cumulative credit usage for a billing period
+      tags:
+      - Usage
+  /usage/v2:
+    get:
+      description: Retrieves current credit usage and period information
+      operationId: getUsageV2
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsageDTO'
+          description: Usage info retrieved
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsageDTO'
+          description: Subscription not found
+      security:
+      - bearer-jwt: []
+      summary: Get usage information (v2)
+      tags:
+      - Usage
+  /usage/v2/credit-periods:
+    get:
+      description: Retrieves all monthly credit periods from subscription start
+      operationId: getCreditPeriodsV2
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PeriodDTO'
+                type: array
+          description: Credit periods retrieved
+        '404':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PeriodDTO'
+                type: array
+          description: Subscription not found
+      security:
+      - bearer-jwt: []
+      summary: Get credit periods (v2)
+      tags:
+      - Usage
+  /users/me/organization:
+    get:
+      description: Retrieves the organization associated with the authenticated user
+      operationId: getCurrentUserOrganization
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Organization found
+        '401':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CurrentUserOrganizationResponse'
+          description: Invalid JWT token
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CurrentUserOrganizationResponse'
+          description: Organization not found
+      security:
+      - bearer-jwt: []
+      summary: Get current user's organization
+      tags:
+      - Current User Organization
+    put:
+      description: Updates the organization's name, logo URL and URL
+      operationId: updateOrganization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrganizationRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Organization updated successfully
+        '401':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+          description: Invalid JWT token
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+          description: Organization not found
+      security:
+      - bearer-jwt: []
+      summary: Update current user's organization
+      tags:
+      - Current User Organization
+  /users/me/organization/invitations/{invitationToken}/accept:
+    post:
+      description: Accept an invitation to join an organization using the invitation
+        token from the email link
+      operationId: acceptInvitation
+      parameters:
+      - in: path
+        name: invitationToken
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Invitation accepted successfully
+        '400':
+          description: Invalid or expired invitation token, email mismatch, or user
+            already in organization
+        '401':
+          description: Invalid JWT token
+      security:
+      - bearer-jwt: []
+      summary: Accept organization invitation
+      tags:
+      - Current User Organization
+  /users/me/organization/members:
+    delete:
+      description: Removes multiple members or pending invitations from the authenticated
+        user's organization. All removals happen in a single transaction - if any
+        removal fails, all are rolled back.
+      operationId: bulkRemoveMembersOrInvitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkRemoveMembersRequest'
+        required: true
+      responses:
+        '204':
+          description: All members and invitations removed successfully
+        '400':
+          description: Invalid request or email list is empty
+        '401':
+          description: Invalid JWT token
+        '404':
+          description: Organization not found, user is not owner, or one or more members/invitations
+            not found
+      security:
+      - bearer-jwt: []
+      summary: Bulk remove members or invitations from organization
+      tags:
+      - Current User Organization
+    get:
+      description: Retrieves members and invitees of the authenticated user's organization
+      operationId: retrieveOrganizationMembersAsCsv
+      responses:
+        '200':
+          content:
+            text/csv: {}
+          description: Organization members retrieved successfully
+        '401':
+          content:
+            text/csv:
+              schema:
+                format: byte
+                type: string
+          description: Invalid JWT token
+      security:
+      - bearer-jwt: []
+      summary: Retrieve current user's organization members and invitees
+      tags:
+      - Current User Organization
+  /users/me/organization/members/invite:
+    post:
+      description: Sends an invitation to an email list to join the organization
+      operationId: inviteUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteUsersRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Invitations sent successfully
+        '400':
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/OrganizationMembersResponse'
+                type: array
+          description: Invalid request or user already invited
+        '401':
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/OrganizationMembersResponse'
+                type: array
+          description: Invalid JWT token
+        '404':
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/OrganizationMembersResponse'
+                type: array
+          description: Organization not found or user is not owner
+      security:
+      - bearer-jwt: []
+      summary: Invite users to current user's an organization
+      tags:
+      - Current User Organization
+  /users/me/organization/members/{email}:
+    delete:
+      description: Removes a member or pending invitation from the authenticated user's
+        organization
+      operationId: removeMemberOrInvitation
+      parameters:
+      - in: path
+        name: email
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Member or invitation removed successfully
+        '401':
+          description: Invalid JWT token
+        '404':
+          description: Organization not found, user is not owner, or invitation not
+            found
+      security:
+      - bearer-jwt: []
+      summary: Remove member or invitation from organization
+      tags:
+      - Current User Organization
+  /users/me/organization/v2:
+    get:
+      description: Retrieves organization information without billing/usage details
+      operationId: getCurrentUserOrganizationV2
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Organization found
+        '401':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrganizationDTOv2'
+          description: Invalid JWT token
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrganizationDTOv2'
+          description: Organization not found
+      security:
+      - bearer-jwt: []
+      summary: Get current user's organization (v2)
+      tags:
+      - Current User Organization
+  /users/me/tokens:
+    get:
+      description: Retrieves all tokens for the authenticated user, including active
+        and revoked tokens. Plaintext token values are not included.
+      operationId: listTokens
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Tokens retrieved successfully
+        '401':
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserTokenDTO'
+                type: array
+          description: Invalid JWT token
+      security:
+      - bearer-jwt: []
+      summary: List all Personal Access Tokens
+      tags:
+      - Current User Tokens
+    post:
+      description: Creates a new token for API authentication. The plaintext token
+        is ONLY returned in this response and cannot be retrieved again.
+      operationId: createToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTokenRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Token created successfully
+        '400':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserTokenWithPlaintextDTO'
+          description: Invalid request (e.g., empty name)
+        '401':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserTokenWithPlaintextDTO'
+          description: Invalid JWT token
+      security:
+      - bearer-jwt: []
+      summary: Create a new Personal Access Token
+      tags:
+      - Current User Tokens
+  /users/me/tokens/{tokenId}:
+    delete:
+      description: Revokes a token, preventing it from being used for authentication.
+      operationId: revokeToken
+      parameters:
+      - in: path
+        name: tokenId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        '204':
+          description: Token revoked successfully
+        '401':
+          description: Invalid JWT token
+        '404':
+          description: Token not found or already revoked, or token does not belong
+            to user
+      security:
+      - bearer-jwt: []
+      summary: Revoke a Personal Access Token
+      tags:
+      - Current User Tokens
+    get:
+      description: Retrieves a specific token for the authenticated user by ID. Plaintext
+        token value is not included.
+      operationId: getTokenById
+      parameters:
+      - in: path
+        name: tokenId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Token retrieved successfully
+        '401':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserTokenDTO'
+          description: Invalid JWT token
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserTokenDTO'
+          description: Token not found or does not belong to user
+      security:
+      - bearer-jwt: []
+      summary: Get a Personal Access Token by ID
+      tags:
+      - Current User Tokens
+  /vulnerabilities/{id}:
+    get:
+      description: 'Retrieves detailed information about a specific vulnerability
+        including explanation, detection methods, recommendations, and references.
+        Note: Large arrays (affectedComponentVersions, vulnerableMethods) are excluded
+        for performance - use /{id}/components endpoint for paginated affected components.'
+      operationId: getVulnerabilityByRefId
+      parameters:
+      - description: Vulnerability ID (e.g., CVE-2021-44228, GHSA-xxxx-yyyy-zzzz)
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VulnerabilityDetailDocument'
+          description: Vulnerability found
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/VulnerabilityDetailDocument'
+          description: Vulnerability not found
+      summary: Get vulnerability by ID
+      tags:
+      - Vulnerabilities
+  /vulnerabilities/{id}/components:
+    get:
+      description: Retrieves paginated list of affected component versions for a specific
+        vulnerability with optional text filtering and sorting. Returns parsed component
+        structures with ecosystem, namespace, packageName, version, and fullPackageName
+        fields.
+      operationId: getVulnerabilityAffectedComponents
+      parameters:
+      - description: Vulnerability ID (e.g., CVE-2021-44228, GHSA-xxxx-yyyy-zzzz)
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Text search query (filters ecosystem, namespace, package, version
+          fields)
+        in: query
+        name: query
+        required: false
+        schema:
+          type: string
+      - description: 'Pagination offset (default: 0)'
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Pagination limit (default: 50)'
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Field to sort by: ecosystem, package (fullPackageName), version
+          (default: package)'
+        in: query
+        name: sortField
+        required: false
+        schema:
+          type: string
+      - description: 'Sort order: asc or desc (default: asc)'
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponse'
+          description: Components retrieved successfully
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseAffectedComponentVersion'
+          description: Vulnerability not found
+      summary: Get affected components for a vulnerability
+      tags:
+      - Vulnerabilities
+security:
+- bearer-jwt: []
+servers:
+- description: Generated server url
+  url: http://api.guide.sonatype.com
+tags:
+- description: Credit usage and billing period APIs
+  name: Usage
+- description: Vulnerability search and filtering API
+  name: Vulnerabilities
+- description: Personal Access Token management APIs
+  name: Current User Tokens
+- description: Component search and filtering API
+  name: Components
+- description: Credit balance and usage tracking API
+  name: Credits
+- description: Billing and subscription management API
+  name: Billing
+- description: Current user organization management APIs
+  name: Current User Organization
+- description: Version upgrade recommendation API
+  name: Recommendations
