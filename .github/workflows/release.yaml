@@ -25,8 +25,7 @@ jobs:
                 language: ['go', 'java-webclient', 'python', 'typescript']
         steps:
             - name: Checkout
-              # see https://github.com/actions/checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Create Output Directory
               run: mkdir out/${{ matrix.language }}
@@ -115,6 +114,9 @@ jobs:
       name: Release Python Library
       runs-on: ubuntu-latest
       needs: generate-library-code
+      permissions:
+        # IMPORTANT: this permission is mandatory for Trusted Publishing
+        id-token: write
 
       steps:
         - name: Set up Python
@@ -144,11 +146,10 @@ jobs:
           run: poetry build
           working-directory: out/python
 
-        - name: Publish
-          run: |
-            poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-            poetry publish
-          working-directory: out/python
+        - name: Publish to PyPI
+          uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+            packages-dir: out/python/dist/
 
     release-java-webclient:
         name: Release Java Webclient Library
