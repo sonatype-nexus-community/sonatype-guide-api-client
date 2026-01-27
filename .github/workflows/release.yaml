@@ -201,19 +201,23 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: latest
+
             - name: Get generated code from cache
               uses: actions/cache/restore@v4
               with:
                   path: out/typescript
                   key: 'typescript-${{ github.sha }}'
                   fail-on-cache-miss: true
+
             - name: Set Version
               run: |
                   npm version ${{ env.THIS_VERSION }}
               working-directory: out/typescript
+
             - name: Build Typescript API Client
               run: npm i && npm run build
               working-directory: out/typescript
+              
             - name: Publish
               run: |
                   npm set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
