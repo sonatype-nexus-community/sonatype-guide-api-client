@@ -26,7 +26,7 @@ _Request a new lanaguage / framework via GitHub Issue._
 | -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Golang / Go          | 14-Jan-2026 _(`1.202601.0`)_ | [![go.dev reference](https://img.shields.io/github/v/tag/sonatype-nexus-community/sonatype-guide-api-client-go)](https://pkg.go.dev/github.com/sonatype-nexus-community/sonatype-guide-api-client-go)             |
 | Java (Webclient)     | 14-Jan-2026 _(`1.202601.0`)_ | [![Maven Central Version](https://img.shields.io/maven-central/v/org.sonatype.community/sonatype-guide-api-webclient)](https://central.sonatype.com/artifact/org.sonatype.community/sonatype-guide-api-webclient) |
-| Python               | 14-Jan-2026 _(`1.202601.0`)_ | [![PyPi](https://img.shields.io/pypi/v/sonatype_guide_api_client)](https://pypi.org/project/sonatype_guide_api_client/)                                                                                                     |
+| Python               | 14-Jan-2026 _(`1.202601.0`)_ | [![PyPi](https://img.shields.io/pypi/v/sonatype-guide-api-client)](https://pypi.org/project/sonatype-guide-api-client/)                                                                                                     |
 | Typescript (fetch)   | 14-Jan-2026 _(`1.202601.0`)_ | [![npm](https://img.shields.io/npm/v/@sonatype/sonatype-guide-api-client)](https://www.npmjs.com/package/@sonatype/sonatype-guide-api-client)                                                                 |
 
 ## Customisations
@@ -71,7 +71,7 @@ Last but not least of all - have fun!
 
 <!-- Links Section -->
 
-[shield_gh-workflow-test]: https://img.shields.io/github/actions/workflow/status/sonatype-nexus-community/sonatype-guide-api-client/test.yml?branch=main&logo=GitHub&logoColor=white 'build'
+[shield_gh-workflow-test]: https://img.shields.io/github/actions/workflow/status/sonatype-nexus-community/sonatype-guide-api-client/build.yml?branch=main&logo=GitHub&logoColor=white 'build'
 [shield_license]: https://img.shields.io/github/license/sonatype-nexus-community/sonatype-guide-api-client?logo=open%20source%20initiative&logoColor=white 'license'
-[link_gh-workflow-test]: https://github.com/sonatype-nexus-community/sonatype-guide-api-client/actions/workflows/test.yml?query=branch%3Amain
+[link_gh-workflow-test]: https://github.com/sonatype-nexus-community/sonatype-guide-api-client/actions/workflows/build.yml?query=branch%3Amain
 [license_file]: https://github.com/sonatype-nexus-community/sonatype-guide-api-client/blob/main/LICENSE
