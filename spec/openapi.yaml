@@ -151,24 +151,6 @@ components:
           - TRANSFERRED
           type: string
       type: object
-    BillingPeriod:
-      properties:
-        endDate:
-          format: date
-          type: string
-        startDate:
-          format: date
-          type: string
-      type: object
-    BillingPeriodsResponse:
-      properties:
-        currentPeriod:
-          $ref: '#/components/schemas/BillingPeriod'
-        periods:
-          items:
-            $ref: '#/components/schemas/BillingPeriod'
-          type: array
-      type: object
     BulkRemoveMembersRequest:
       properties:
         emails:
@@ -210,6 +192,8 @@ components:
           items:
             type: string
           type: array
+        dts:
+          $ref: '#/components/schemas/DtsDimensions'
         format:
           type: string
         isMalware:
@@ -229,6 +213,8 @@ components:
           type: string
         originId:
           type: string
+        policyCompliance:
+          $ref: '#/components/schemas/PolicyComplianceResult'
         publishedDate:
           format: date-time
           type: string
@@ -246,6 +232,8 @@ components:
           items:
             type: string
           type: array
+        dts:
+          $ref: '#/components/schemas/DtsDimensions'
         format:
           type: string
         isMalware:
@@ -265,6 +253,8 @@ components:
           type: string
         originId:
           type: string
+        policyCompliance:
+          $ref: '#/components/schemas/PolicyComplianceResult'
         publishedDate:
           format: date-time
           type: string
@@ -299,7 +289,7 @@ components:
           type: number
         vulnerabilities:
           items:
-            $ref: '#/components/schemas/OssiVulnerability_Post'
+            $ref: '#/components/schemas/OssiVulnerability_Get'
           type: array
       type: object
     ComponentReport_Post:
@@ -327,122 +317,51 @@ components:
       - daysUntilExpiration
       - name
       type: object
-    CreditBalance:
-      properties:
-        creditsRemaining:
-          format: int32
-          type: integer
-        creditsUsed:
-          format: int32
-          type: integer
-        periodEnd:
-          format: date
-          type: string
-        periodStart:
-          format: date
-          type: string
-        planTier:
-          enum:
-          - FREE
-          - PRO
-          - ENTERPRISE
-          - TEAM
-          type: string
-        resetDate:
-          format: date
-          type: string
-        status:
-          enum:
-          - under_limit
-          - approaching_limit
-          - over_limit
-          - abuse_limit
-          type: string
-        totalCredits:
-          format: int32
-          type: integer
-        usagePercentage:
-          format: int32
-          type: integer
-      type: object
-    CreditUsage:
-      properties:
-        percentage:
-          format: int32
-          type: integer
-        periodEnd:
-          format: date
-          type: string
-        periodStart:
-          format: date
-          type: string
-        total:
-          format: int32
-          type: integer
-        used:
-          format: int32
-          type: integer
-      type: object
     CumulativeCreditUsage:
       properties:
         creditLimit:
-          format: int32
-          type: integer
+          type: number
         dailyAverage:
-          format: int32
-          type: integer
+          type: number
         dailyUsage:
           items:
             $ref: '#/components/schemas/DailyCreditUsage'
           type: array
         peakDay:
-          format: int32
-          type: integer
+          type: number
         totalCreditsUsed:
-          format: int32
-          type: integer
-      type: object
-    CurrentUserOrganizationResponse:
-      properties:
-        isOwner:
-          type: boolean
-        logo:
-          type: string
-        name:
-          type: string
-        people:
-          format: int32
-          type: integer
-        plan:
-          $ref: '#/components/schemas/OrganizationPlanDTO'
-        slug:
-          type: string
-        url:
-          type: string
-        usage:
-          format: int32
-          type: integer
-        usageDetail:
-          $ref: '#/components/schemas/OrganizationUsageDTO'
-      type: object
-    CustomerInfo:
-      properties:
-        email:
-          type: string
-        id:
-          type: string
+          type: number
       type: object
     DailyCreditUsage:
       properties:
         cumulativeUsage:
-          format: int32
-          type: integer
+          type: number
         dailyUsage:
-          format: int32
-          type: integer
+          type: number
         date:
           format: date
           type: string
+      type: object
+    DtsDimensions:
+      properties:
+        age:
+          format: int32
+          type: integer
+        license:
+          format: int32
+          type: integer
+        overall:
+          format: int32
+          type: integer
+        popularity:
+          format: int32
+          type: integer
+        releaseStability:
+          format: int32
+          type: integer
+        security:
+          format: int32
+          type: integer
       type: object
     FromVersion:
       properties:
@@ -456,6 +375,8 @@ components:
             format: double
             type: number
           type: object
+        dtsDimensions:
+          $ref: '#/components/schemas/DtsDimensions'
         licenseThreatLevels:
           additionalProperties:
             format: int32
@@ -473,14 +394,13 @@ components:
           type: string
         vulnerableMethods:
           items:
-            $ref: '#/components/schemas/VulnerableMethod'
+            $ref: '#/components/schemas/RecommendationVulnerableMethod'
           type: array
       type: object
     InviteUsersRequest:
       properties:
         emails:
           items:
-            format: email
             type: string
           minItems: 1
           type: array
@@ -510,18 +430,33 @@ components:
           format: double
           type: number
       type: object
-    OrganizationBillingDTO:
+    LatestVersionRequest:
+      description: Request body containing the component PURL
       properties:
-        monthlyCost:
-          format: double
-          type: number
-        nextBilling:
+        purl:
+          minLength: 1
           type: string
-        paymentMethod:
-          type: string
+      required:
+      - purl
       type: object
-    OrganizationDTOv2:
+    MethodSignature:
       properties:
+        signature:
+          type: string
+        type:
+          type: string
+        vulnerableParameters:
+          items:
+            format: int32
+            type: integer
+          type: array
+      type: object
+    OrganizationDTO:
+      properties:
+        auth0OrgId:
+          type: string
+        isBillingSubscriber:
+          type: boolean
         isOwner:
           type: boolean
         logo:
@@ -564,49 +499,68 @@ components:
           - EXPIRED
           type: string
       type: object
-    OrganizationPlanDTO:
+    OssiMonthlyUsage:
       properties:
-        apiCallsLimit:
-          format: int32
-          type: integer
-        billing:
-          $ref: '#/components/schemas/OrganizationBillingDTO'
-        mcpCallsLimit:
-          format: int32
-          type: integer
-        name:
+        estimatedCredits:
+          type: number
+        month:
           type: string
-        seaworthySaasSearchesLimit:
+        totalComponents:
           format: int32
           type: integer
       type: object
-    OrganizationResponse:
+    OssiUsageDataRange:
       properties:
-        createdAt:
-          format: date-time
+        end:
           type: string
-        logoUrl:
-          type: string
-        name:
-          type: string
-        slug:
-          type: string
-        status:
-          type: string
-        url:
+        start:
           type: string
       type: object
-    OrganizationUsageDTO:
+    OssiUsageHistoryDTO:
       properties:
-        apiCalls:
-          format: int32
-          type: integer
-        mcpCalls:
-          format: int32
-          type: integer
-        seaworthySaasSearches:
-          format: int32
-          type: integer
+        isEstimate:
+          type: boolean
+        months:
+          items:
+            $ref: '#/components/schemas/OssiMonthlyUsage'
+          type: array
+        summary:
+          $ref: '#/components/schemas/OssiUsageSummary'
+      type: object
+    OssiUsageSummary:
+      properties:
+        dataRange:
+          $ref: '#/components/schemas/OssiUsageDataRange'
+        monthlyAverage:
+          type: number
+        totalCredits:
+          type: number
+      type: object
+    OssiVulnerability_Get:
+      properties:
+        cve:
+          type: string
+        cvssScore:
+          format: double
+          type: number
+        cvssVector:
+          type: string
+        cwe:
+          type: string
+        description:
+          type: string
+        displayName:
+          type: string
+        externalReferences:
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        reference:
+          type: string
+        title:
+          type: string
       type: object
     OssiVulnerability_Post:
       properties:
@@ -643,32 +597,13 @@ components:
           format: date
           type: string
       type: object
-    Plan:
-      properties:
-        billing:
-          type: string
-        credits:
-          format: int32
-          type: integer
-        isFreePlan:
-          type: boolean
-        name:
-          type: string
-        nextBill:
-          format: date
-          type: string
-        price:
-          format: double
-          type: number
-        status:
-          type: string
-      type: object
-    PlanDTOv2:
+    PlanDTO:
       properties:
         billingPeriod:
           enum:
           - PER_MONTH
           - PER_YEAR
+          - CUSTOM
           type: string
         chargebeeItemId:
           type: string
@@ -677,8 +612,7 @@ components:
         isCurrentPlan:
           type: boolean
         monthlyCredits:
-          format: int32
-          type: integer
+          type: number
         planTier:
           enum:
           - FREE
@@ -690,26 +624,25 @@ components:
           format: double
           type: number
       type: object
-    PlanInfo:
+    PolicyComplianceResult:
       properties:
-        chargebeeItemId:
-          type: string
-        credits:
-          format: int32
-          type: integer
-        isCurrentPlan:
+        compliant:
           type: boolean
-        name:
-          type: string
-        tier:
-          type: string
-      type: object
-    PlansResponse:
-      properties:
-        plans:
+        conditions:
           items:
-            $ref: '#/components/schemas/PlanInfo'
+            $ref: '#/components/schemas/PolicyConditionResult'
           type: array
+      type: object
+    PolicyConditionResult:
+      properties:
+        conditionId:
+          type: string
+        conditionName:
+          type: string
+        passing:
+          type: boolean
+        reason:
+          type: string
       type: object
     PurlRequest_Post:
       properties:
@@ -738,6 +671,15 @@ components:
             $ref: '#/components/schemas/RecommendedVersion'
           type: array
       type: object
+    RecommendationVulnerableMethod:
+      properties:
+        methodSignatures:
+          items:
+            $ref: '#/components/schemas/MethodSignature'
+          type: array
+        refid:
+          type: string
+      type: object
     RecommendedVersion:
       properties:
         breakingChangesCount:
@@ -750,6 +692,8 @@ components:
             format: double
             type: number
           type: object
+        dtsDimensions:
+          $ref: '#/components/schemas/DtsDimensions'
         licenseThreatLevels:
           additionalProperties:
             format: int32
@@ -764,7 +708,7 @@ components:
           type: string
         vulnerableMethods:
           items:
-            $ref: '#/components/schemas/VulnerableMethod'
+            $ref: '#/components/schemas/RecommendationVulnerableMethod'
           type: array
       type: object
     Reference:
@@ -784,13 +728,6 @@ components:
           format: double
           type: number
       type: object
-    SubscriptionDetailsResponse:
-      properties:
-        creditUsage:
-          $ref: '#/components/schemas/CreditUsage'
-        plan:
-          $ref: '#/components/schemas/Plan'
-      type: object
     UpdateOrganizationRequest:
       properties:
         logoUrl:
@@ -803,13 +740,13 @@ components:
     UsageDTO:
       properties:
         creditsTotal:
-          format: int32
-          type: integer
+          type: number
         creditsUsed:
-          format: int32
-          type: integer
+          type: number
         currentPeriod:
           $ref: '#/components/schemas/PeriodDTO'
+        isOssiOrigin:
+          type: boolean
       type: object
     UserTokenDTO:
       properties:
@@ -961,6 +898,20 @@ components:
       description: JWT Bearer Token Authentication
       scheme: bearer
       type: http
+    ossi-basic-auth:
+      description: 'HTTP Basic Authentication for OSSI API. Username: OSSI username.
+        Password: OSSI API token. This authentication method is intended for legacy
+        OSSI users, allowing them to continue using their existing OSSI API tokens
+        without creating a new Sonatype Guide account. The Authorization header value
+        is generated by Base64-encoding ''username:apiToken''. Example: Authorization:
+        Basic dXNlcm5hbWU6YXBpVG9rZW4='
+      scheme: basic
+      type: http
+    user-token:
+      description: Long-lived User Token Authentication. Create tokens via Settings
+        > API Tokens in the UI.
+      scheme: bearer
+      type: http
 info:
   contact:
     name: Sonatype Community Maintainers
@@ -970,11 +921,47 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Sonatype Guide API
-  version: '202601'
+  version: '202605'
 openapi: 3.1.0
 paths:
   /api/v3/authorized/component-report:
     post:
+      description: 'Retrieves component reports for multiple Package URLs (PURLs)
+        in a single request.
+
+
+        Authentication:
+
+        - HTTP Basic Authentication required
+
+        - Authorization header: Basic <base64(username:apiToken)>
+
+
+        Request Body:
+
+        - Array of PURLs (max 128 components)
+
+        - Each PURL must include a version
+
+
+        Response Headers:
+
+        - X-Batch-Size: Total number of components requested
+
+        - X-Batch-Found: Number of components found
+
+        - X-Credits-Used: Credits consumed for this request
+
+        - X-Credits-Remaining: Available credit balance
+
+        - X-Credits-Warning: Alert when approaching credit limit (JSON)
+
+
+        Note: Credits are only charged for components found. Requests for the same
+
+        components on the same day are not charged multiple times.
+
+        '
       operationId: getComponentReports_1
       parameters:
       - in: header
@@ -994,6 +981,14 @@ paths:
       responses:
         '200':
           content:
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Component reports retrieved successfully
+        '400':
+          content:
             application/json:
               schema:
                 items:
@@ -1004,11 +999,79 @@ paths:
                 items:
                   $ref: '#/components/schemas/ComponentReport_Post'
                 type: array
-          description: OK
+          description: Invalid request - missing coordinates or invalid PURL format
+        '401':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Unauthorized - invalid credentials
+        '402':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Payment required - insufficient credits
+        '500':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Internal server error - OSSI service unavailable or other system
+            error
+      security:
+      - ossi-basic-auth: []
+      summary: Get component reports for multiple PURLs
       tags:
-      - ossi-controller
+      - OSS Index Compatibility
   /api/v3/authorized/component-report/**:
     get:
+      description: 'Retrieves a component report for a single Package URL (PURL).
+
+
+        Authentication:
+
+        - HTTP Basic Authentication required
+
+        - Authorization header: Basic <base64(username:apiToken)>
+
+
+        Response Headers:
+
+        - X-Credits-Used: Credits consumed for this request
+
+        - X-Credits-Remaining: Available credit balance
+
+        - X-Credits-Warning: Alert when approaching credit limit (JSON)
+
+
+        Note: Credits are only charged when a component is found. Requests for the
+        same
+
+        component on the same day are not charged multiple times.
+
+        '
       operationId: getComponentReport
       parameters:
       - in: header
@@ -1019,17 +1082,90 @@ paths:
       responses:
         '200':
           content:
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Component report retrieved successfully
+        '400':
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ComponentReport_Get'
             application/vnd.ossindex.component-report.v1+json:
               schema:
                 $ref: '#/components/schemas/ComponentReport_Get'
-          description: OK
+          description: Invalid request - missing coordinates or invalid PURL format
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Unauthorized - invalid credentials
+        '402':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Payment required - insufficient credits
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Internal server error - OSSI service unavailable or other system
+            error
+      security:
+      - ossi-basic-auth: []
+      summary: Get component report by PURL
       tags:
-      - ossi-controller
+      - OSS Index Compatibility
   /api/v3/component-report:
     post:
+      description: 'Retrieves component reports for multiple Package URLs (PURLs)
+        in a single request.
+
+
+        Authentication:
+
+        - HTTP Basic Authentication required
+
+        - Authorization header: Basic <base64(username:apiToken)>
+
+
+        Request Body:
+
+        - Array of PURLs (max 128 components)
+
+        - Each PURL must include a version
+
+
+        Response Headers:
+
+        - X-Batch-Size: Total number of components requested
+
+        - X-Batch-Found: Number of components found
+
+        - X-Credits-Used: Credits consumed for this request
+
+        - X-Credits-Remaining: Available credit balance
+
+        - X-Credits-Warning: Alert when approaching credit limit (JSON)
+
+
+        Note: Credits are only charged for components found. Requests for the same
+
+        components on the same day are not charged multiple times.
+
+        '
       operationId: getComponentReports
       parameters:
       - in: header
@@ -1049,6 +1185,14 @@ paths:
       responses:
         '200':
           content:
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Component reports retrieved successfully
+        '400':
+          content:
             application/json:
               schema:
                 items:
@@ -1059,11 +1203,79 @@ paths:
                 items:
                   $ref: '#/components/schemas/ComponentReport_Post'
                 type: array
-          description: OK
+          description: Invalid request - missing coordinates or invalid PURL format
+        '401':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Unauthorized - invalid credentials
+        '402':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Payment required - insufficient credits
+        '500':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentReport_Post'
+                type: array
+          description: Internal server error - OSSI service unavailable or other system
+            error
+      security:
+      - ossi-basic-auth: []
+      summary: Get component reports for multiple PURLs
       tags:
-      - ossi-controller
+      - OSS Index Compatibility
   /api/v3/component-report/**:
     get:
+      description: 'Retrieves a component report for a single Package URL (PURL).
+
+
+        Authentication:
+
+        - HTTP Basic Authentication required
+
+        - Authorization header: Basic <base64(username:apiToken)>
+
+
+        Response Headers:
+
+        - X-Credits-Used: Credits consumed for this request
+
+        - X-Credits-Remaining: Available credit balance
+
+        - X-Credits-Warning: Alert when approaching credit limit (JSON)
+
+
+        Note: Credits are only charged when a component is found. Requests for the
+        same
+
+        component on the same day are not charged multiple times.
+
+        '
       operationId: getComponentReport_1
       parameters:
       - in: header
@@ -1074,18 +1286,57 @@ paths:
       responses:
         '200':
           content:
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Component report retrieved successfully
+        '400':
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ComponentReport_Get'
             application/vnd.ossindex.component-report.v1+json:
               schema:
                 $ref: '#/components/schemas/ComponentReport_Get'
-          description: OK
+          description: Invalid request - missing coordinates or invalid PURL format
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Unauthorized - invalid credentials
+        '402':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Payment required - insufficient credits
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+            application/vnd.ossindex.component-report.v1+json:
+              schema:
+                $ref: '#/components/schemas/ComponentReport_Get'
+          description: Internal server error - OSSI service unavailable or other system
+            error
+      security:
+      - ossi-basic-auth: []
+      summary: Get component report by PURL
       tags:
-      - ossi-controller
+      - OSS Index Compatibility
   /api/v3/version:
     get:
       deprecated: true
+      description: Returns the API version information. This endpoint is public and
+        does not require authentication.
       operationId: getVersion
       responses:
         '200':
@@ -1094,32 +1345,35 @@ paths:
               schema:
                 type: string
           description: OK
+      security:
+      - ossi-basic-auth: []
+      summary: Get API version
       tags:
-      - ossi-controller
-  /billing/customer:
+      - OSS Index Compatibility
+  /billing:
     get:
-      description: Retrieves the current user's customer profile information. Returns
-        the customer ID and associated email address for billing purposes.
-      operationId: getCustomerInfo
+      description: Retrieves billing details including cost, period, and payment method
+      operationId: getBilling
       responses:
         '200':
           content:
             application/json:
               schema:
-                example:
-                  customer:
-                    email: test@test.com
-                    id: 169q4nUvkKuNOMVk
-                type: string
-          description: Customer information retrieved successfully
+                $ref: '#/components/schemas/BillingDTO'
+          description: Billing info retrieved
         '403':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomerInfo'
-          description: User is not an organization owner and cannot access billing
-            information
-      summary: Get customer information
+                $ref: '#/components/schemas/BillingDTO'
+          description: User is not an organization owner
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingDTO'
+          description: Subscription not found
+      summary: Get billing information
       tags:
       - Billing
   /billing/invoices:
@@ -1159,141 +1413,20 @@ paths:
       - Billing
   /billing/plans:
     get:
-      description: Retrieves all available subscription plans including plan tier,
-        display name, monthly credits, and Chargebee item ID. The user's current active
-        plan is marked with isCurrentPlan flag. Supports both FREE users (with direct
-        subscription) and PAID users (with organization subscription).
+      description: Retrieves all active subscription plans with dynamic Chargebee
+        pricing. Supports both authenticated and unauthenticated requests. When authenticated,
+        the user's current plan is marked.
       operationId: getPlans
       responses:
         '200':
           content:
             application/json:
               schema:
-                example:
-                  plans:
-                  - chargebeeItemId: null
-                    credits: 500
-                    isCurrentPlan: false
-                    name: Free
-                    tier: FREE
-                  - chargebeeItemId: Guide-Team-USD-Yearly
-                    credits: 5000
-                    isCurrentPlan: true
-                    name: Team
-                    tier: TEAM
-                  - chargebeeItemId: Guide-Pro-USD-Yearly
-                    credits: 25000
-                    isCurrentPlan: false
-                    name: Pro
-                    tier: PRO
-                type: string
-          description: Plans information retrieved successfully
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlansResponse'
-          description: Subscription not found
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlansResponse'
-          description: Internal server error
-      summary: Get all available plans with current plan marked
-      tags:
-      - Billing
-  /billing/subscription:
-    get:
-      description: Retrieves the current user's subscription plan and credit usage
-        information. Returns the active plan details including pricing, credit limits,
-        and current usage statistics with billing period dates.
-      operationId: getUserSubscription
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                example:
-                  creditUsage:
-                    percentage: 65
-                    periodEnd: '2025-11-09'
-                    periodStart: '2025-10-10'
-                    total: 5000
-                    used: 3250
-                  plan:
-                    cancelAtPeriodEnd: false
-                    credits: 5000
-                    interval: per month
-                    name: Free (Personal)
-                    price: 0
-                    status: active
-                type: string
-          description: Subscription details retrieved successfully
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriptionDetailsResponse'
-          description: User is not an organization owner and cannot access billing
-            information
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriptionDetailsResponse'
-          description: Organization or subscription not found
-      summary: Get user subscription details
-      tags:
-      - Billing
-  /billing/v2:
-    get:
-      description: Retrieves billing details including cost, period, and payment method
-      operationId: getBillingV2
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingDTO'
-          description: Billing info retrieved
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingDTO'
-          description: User is not an organization owner
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingDTO'
-          description: Subscription not found
-      summary: Get billing information (v2)
-      tags:
-      - Billing
-  /billing/v2/plans:
-    get:
-      description: Retrieves all subscription plans with current plan marked
-      operationId: getPlansV2
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
                 items:
-                  $ref: '#/components/schemas/PlanDTOv2'
+                  $ref: '#/components/schemas/PlanDTO'
                 type: array
           description: Plans retrieved
-        '404':
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/PlanDTOv2'
-                type: array
-          description: Subscription not found
-      summary: Get all available plans (v2)
+      summary: Get all available plans
       tags:
       - Billing
   /components/dependencies:
@@ -1521,6 +1654,39 @@ paths:
                 $ref: '#/components/schemas/ComponentDetailDocument'
           description: Component not found
       summary: Get component detail by coordinates (query parameters)
+      tags:
+      - Components
+  /components/latest-version:
+    post:
+      description: Retrieves the latest version of a component specified by PURL.
+        The PURL should not include a version, or the version will be ignored.
+      operationId: getLatestVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LatestVersionRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComponentDetailDocument'
+          description: Latest version found
+        '400':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComponentDetailDocument'
+          description: Invalid request - PURL is required
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComponentDetailDocument'
+          description: Component not found
+      summary: Get latest version of a component
       tags:
       - Components
   /components/versions:
@@ -1825,59 +1991,6 @@ paths:
       summary: Get vulnerabilities for a component by coordinates (query parameters)
       tags:
       - Components
-  /credits/usage/breakdown:
-    get:
-      description: Retrieves the credit usage breakdown for the current period for
-        the authenticated user. Returns total credits used and breakdown by lookup
-        type (MCP, component, vulnerability).
-      operationId: getCreditUsageBreakdown
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                example:
-                  current_period:
-                    component_lookups: 43
-                    mcp_lookups: 2
-                    total_credits_used: 50
-                    vulnerability_lookups: 5
-                  subject: org_123
-                type: string
-          description: Credit usage breakdown retrieved successfully
-      security:
-      - bearer-jwt: []
-      summary: Get credit usage breakdown
-      tags:
-      - Credits
-  /credits/usage/history:
-    get:
-      description: Retrieves the daily credit usage history for the authenticated
-        user. Returns a list of daily usage with breakdown by lookup type (MCP, component,
-        vulnerability) for the specified billing period.
-      operationId: getCreditUsageHistory
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                example:
-                  history:
-                  - component_lookups: 40
-                    credits_used: 45
-                    date: '2025-10-29'
-                    mcp_lookups: 2
-                    vulnerability_lookups: 3
-                  period_end: '2025-11-01'
-                  period_start: '2025-10-01'
-                  subject: org_123
-                type: string
-          description: Credit usage history retrieved successfully
-      security:
-      - bearer-jwt: []
-      summary: Get credit usage history
-      tags:
-      - Credits
   /recommendations:
     post:
       description: Retrieves AI-powered version upgrade recommendations for a component
@@ -1896,81 +2009,69 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/RecommendationResponse'
-          description: Recommendations found
+          description: Success. Returns fromVersion and toVersions array (empty if
+            component is already optimal)
         '400':
           content:
             '*/*':
               schema:
                 type: object
-          description: Invalid request - PURL is required
+          description: Invalid request - malformed PURL or missing required parameters
         '404':
           content:
             '*/*':
               schema:
                 type: object
-          description: No recommendations found for the specified component
+          description: Component not found or no recommendations available
       summary: Get version upgrade recommendations
       tags:
       - Recommendations
   /usage:
     get:
-      description: Retrieves the current credit balance for the authenticated user.
-        Returns remaining credits, used credits, monthly allotment, usage percentage,
-        and billing period information.
-      operationId: getCreditBalance
+      description: Retrieves current credit usage and period information
+      operationId: getUsage
       responses:
         '200':
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/CreditBalance'
-          description: Credit balance retrieved successfully
+                $ref: '#/components/schemas/UsageDTO'
+          description: Usage info retrieved
         '404':
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/CreditBalance'
-          description: User or subscription not found
-        '500':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CreditBalance'
-          description: Internal server error
-      security:
-      - bearer-jwt: []
-      summary: Get credit balance
-      tags:
-      - Usage
-  /usage/billing-periods:
-    get:
-      description: Retrieves the last 6 monthly billing periods (30 days each) for
-        the authenticated user. Periods are calculated based on subscription start
-        date. Supports both FREE and PAID users.
-      operationId: getBillingPeriods
-      responses:
-        '200':
-          content:
-            application/json:
-              example:
-                currentPeriod:
-                  endDate: '2025-11-09'
-                  startDate: '2025-10-10'
-                periods:
-                - endDate: '2025-11-09'
-                  startDate: '2025-10-10'
-                - endDate: '2025-10-09'
-                  startDate: '2025-09-10'
-          description: Billing periods retrieved successfully
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingPeriodsResponse'
+                $ref: '#/components/schemas/UsageDTO'
           description: Subscription not found
       security:
       - bearer-jwt: []
-      summary: Get billing periods for user
+      summary: Get usage information
+      tags:
+      - Usage
+  /usage/credit-periods:
+    get:
+      description: Retrieves all monthly credit periods from subscription start
+      operationId: getCreditPeriods
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PeriodDTO'
+                type: array
+          description: Credit periods retrieved
+        '404':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PeriodDTO'
+                type: array
+          description: Subscription not found
+      security:
+      - bearer-jwt: []
+      summary: Get credit periods
       tags:
       - Usage
   /usage/cumulative:
@@ -2033,57 +2134,43 @@ paths:
       summary: Get cumulative credit usage for a billing period
       tags:
       - Usage
-  /usage/v2:
+  /usage/ossi-history:
     get:
-      description: Retrieves current credit usage and period information
-      operationId: getUsageV2
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/UsageDTO'
-          description: Usage info retrieved
-        '404':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/UsageDTO'
-          description: Subscription not found
-      security:
-      - bearer-jwt: []
-      summary: Get usage information (v2)
-      tags:
-      - Usage
-  /usage/v2/credit-periods:
-    get:
-      description: Retrieves all monthly credit periods from subscription start
-      operationId: getCreditPeriodsV2
+      description: Retrieves pre-migration OSSI API usage data aggregated by month.
+        Shows estimated Guide credits based on historical unique component queries.
+        Only available for OSSI-origin users.
+      operationId: getOssiUsageHistory
       responses:
         '200':
           content:
             application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/PeriodDTO'
-                type: array
-          description: Credit periods retrieved
+              example:
+                isEstimate: true
+                months:
+                - estimatedCredits: 1523.4
+                  month: 2025-12
+                  totalComponents: 15234
+                summary:
+                  dataRange:
+                    end: 2025-12
+                    start: 2025-01
+                  monthlyAverage: 1523.4
+                  totalCredits: 18280.8
+          description: OSSI usage history retrieved successfully
         '404':
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/PeriodDTO'
-                type: array
-          description: Subscription not found
+                $ref: '#/components/schemas/OssiUsageHistoryDTO'
+          description: User not found or not an OSSI-origin user
       security:
       - bearer-jwt: []
-      summary: Get credit periods (v2)
+      summary: Get historical OSSI usage
       tags:
       - Usage
   /users/me/organization:
     get:
-      description: Retrieves the organization associated with the authenticated user
+      description: Retrieves organization information without billing/usage details
       operationId: getCurrentUserOrganization
       responses:
         '200':
@@ -2094,13 +2181,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/CurrentUserOrganizationResponse'
+                $ref: '#/components/schemas/OrganizationDTO'
           description: Invalid JWT token
         '404':
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/CurrentUserOrganizationResponse'
+                $ref: '#/components/schemas/OrganizationDTO'
           description: Organization not found
       security:
       - bearer-jwt: []
@@ -2125,13 +2212,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OrganizationResponse'
+                $ref: '#/components/schemas/OrganizationDTO'
           description: Invalid JWT token
         '404':
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/OrganizationResponse'
+                $ref: '#/components/schemas/OrganizationDTO'
           description: Organization not found
       security:
       - bearer-jwt: []
@@ -2277,30 +2364,22 @@ paths:
       summary: Remove member or invitation from organization
       tags:
       - Current User Organization
-  /users/me/organization/v2:
-    get:
-      description: Retrieves organization information without billing/usage details
-      operationId: getCurrentUserOrganizationV2
+  /users/me/organization/membership:
+    delete:
+      description: Allows a member to leave their organization
+      operationId: leaveOrganization
       responses:
-        '200':
-          content:
-            application/json: {}
-          description: Organization found
+        '204':
+          description: Successfully left
+        '400':
+          description: Owner, billing subscriber, or enterprise org
         '401':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OrganizationDTOv2'
           description: Invalid JWT token
         '404':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OrganizationDTOv2'
-          description: Organization not found
+          description: No organization
       security:
       - bearer-jwt: []
-      summary: Get current user's organization (v2)
+      summary: Leave organization
       tags:
       - Current User Organization
   /users/me/tokens:
@@ -2512,8 +2591,8 @@ paths:
 security:
 - bearer-jwt: []
 servers:
-- description: Generated server url
-  url: http://api.guide.sonatype.com
+- description: Production
+  url: https://api.guide.sonatype.com
 tags:
 - description: Credit usage and billing period APIs
   name: Usage
@@ -2523,8 +2602,11 @@ tags:
   name: Current User Tokens
 - description: Component search and filtering API
   name: Components
-- description: Credit balance and usage tracking API
-  name: Credits
+- description: Legacy OSSI API providing backward compatibility. Allows existing OSSI
+    users to continue using their OSSI API tokens without creating a new Sonatype
+    Guide account. Authentication requires HTTP Basic Auth with OSSI username and
+    API token.
+  name: OSS Index Compatibility
 - description: Billing and subscription management API
   name: Billing
 - description: Current user organization management APIs
