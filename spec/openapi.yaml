@@ -423,6 +423,8 @@ components:
           type: string
         status:
           type: string
+        subscriptionId:
+          type: string
         totalCredits:
           format: double
           type: number
@@ -531,6 +533,8 @@ components:
       properties:
         dataRange:
           $ref: '#/components/schemas/OssiUsageDataRange'
+        maxCredits:
+          type: number
         monthlyAverage:
           type: number
         totalCredits:
@@ -666,6 +670,12 @@ components:
       properties:
         fromVersion:
           $ref: '#/components/schemas/FromVersion'
+        outcome:
+          enum:
+          - FOUND_RECOMMENDATIONS
+          - NO_UPGRADE_NEEDED
+          - NO_DATA_FOR_VERSION
+          type: string
         toVersions:
           items:
             $ref: '#/components/schemas/RecommendedVersion'
@@ -1409,6 +1419,27 @@ paths:
           description: User is not an organization owner and cannot access billing
             information
       summary: Get user invoice history
+      tags:
+      - Billing
+  /billing/invoices/{invoiceId}/pdf:
+    get:
+      description: Redirects to a temporary Chargebee download URL for the invoice
+        PDF. The URL is short-lived and should be consumed immediately.
+      operationId: getInvoicePdf
+      parameters:
+      - in: path
+        name: invoiceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect to PDF download URL
+        '403':
+          description: User is not an organization owner
+        '404':
+          description: Invoice not found or PDF unavailable
+      summary: Download invoice PDF
       tags:
       - Billing
   /billing/plans:
