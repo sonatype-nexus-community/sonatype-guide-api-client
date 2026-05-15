@@ -5,4 +5,4 @@ gitRepoId: sonatype-guide-api-client-go
 additionalProperties:
   goImportAlias: sonatypeguide
   isGoSubmodule: true
-  packageName: v1
+  packageName: sonatypeguide
