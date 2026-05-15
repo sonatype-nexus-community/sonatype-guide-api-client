@@ -4,5 +4,5 @@ generatorName: go
 gitRepoId: sonatype-guide-api-client-go
 additionalProperties:
   goImportAlias: sonatypeguide
-  isGoSubmodule: true
+  isGoSubmodule: false
   packageName: sonatypeguide
