@@ -1,0 +1,74 @@
+name: Spec Update Check
+
+on:
+    schedule:
+        # every Monday at 08:00 UTC
+        - cron: '0 8 * * 1'
+    workflow_dispatch:
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+env:
+    PYTHON_VERSION_DEFAULT: '3.12'
+
+jobs:
+    check-and-release:
+        name: Check for Spec Updates
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+              with:
+                  token: ${{ secrets.MONTHLY_RELEASE_TOKEN }}
+                  fetch-depth: 0
+
+            - name: Set up Python
+              uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+              with:
+                  python-version: ${{ env.PYTHON_VERSION_DEFAULT }}
+
+            - name: Install dependencies
+              run: pip install pyyaml requests
+
+            - name: Update OpenAPI spec
+              env:
+                  GUIDE_API_TOKEN: ${{ secrets.SONATYPE_GUIDE_TOKEN }}
+              run: python update-spec.py
+
+            - name: Check for spec changes
+              id: diff
+              run: |
+                  if git diff --quiet spec/openapi.yaml; then
+                      echo "No spec changes detected - skipping release."
+                      echo "changed=false" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "Spec changes detected."
+                      echo "changed=true" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Compute next version tag
+              id: version
+              if: steps.diff.outputs.changed == 'true'
+              run: |
+                  YYYYMM=$(date +%Y%m)
+                  LATEST_PATCH=$(git tag --list "v1.${YYYYMM}.*" | sed 's/.*\.\([0-9]*\)$/\1/' | sort -n | tail -1)
+                  NEXT_PATCH=$(( ${LATEST_PATCH:--1} + 1 ))
+                  echo "tag=v1.${YYYYMM}.${NEXT_PATCH}" >> "$GITHUB_OUTPUT"
+
+            - name: Setup git config
+              if: steps.diff.outputs.changed == 'true'
+              run: |
+                  git config --global user.name "GitHub Actions"
+                  git config --global user.email "<>"
+
+            - name: Commit, tag and push
+              if: steps.diff.outputs.changed == 'true'
+              run: |
+                  git add spec/openapi.yaml
+                  git commit -m "feat: Updated OpenAPI Spec at $(date +%Y-%m-%d)"
+                  git tag "${{ steps.version.outputs.tag }}"
+                  git push origin main
+                  git push origin "${{ steps.version.outputs.tag }}"
