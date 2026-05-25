@@ -385,6 +385,8 @@ components:
         maxSeverity:
           format: double
           type: number
+        policyCompliance:
+          $ref: '#/components/schemas/PolicyCompliance'
         transitiveVulnerabilities:
           additionalProperties:
             format: double
@@ -628,6 +630,15 @@ components:
           format: double
           type: number
       type: object
+    PolicyCompliance:
+      properties:
+        compliant:
+          type: boolean
+        conditions:
+          items:
+            $ref: '#/components/schemas/PolicyConditionResult'
+          type: array
+      type: object
     PolicyComplianceResult:
       properties:
         compliant:
@@ -675,6 +686,7 @@ components:
           - FOUND_RECOMMENDATIONS
           - NO_UPGRADE_NEEDED
           - NO_DATA_FOR_VERSION
+          - BLOCKED_BY_POLICY
           type: string
         toVersions:
           items:
@@ -709,6 +721,8 @@ components:
             format: int32
             type: integer
           type: object
+        policyCompliance:
+          $ref: '#/components/schemas/PolicyCompliance'
         transitiveVulnerabilities:
           additionalProperties:
             format: double
@@ -2024,9 +2038,11 @@ paths:
       - Components
   /recommendations:
     post:
-      description: Retrieves AI-powered version upgrade recommendations for a component
-        specified by PURL. Analyzes security vulnerabilities, stability metrics, and
-        policy compliance to suggest optimal upgrade paths.
+      description: Retrieves version upgrade recommendations for a component specified
+        by PURL. Analyzes security vulnerabilities, stability metrics, and policy
+        compliance to suggest optimal upgrade paths. Only policy-compliant versions
+        are returned. If a PURL cannot be parsed or policy evaluation fails, the response
+        is BLOCKED_BY_POLICY (fail-closed).
       operationId: getRecommendations
       requestBody:
         content:
@@ -2041,7 +2057,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RecommendationResponse'
           description: Success. Returns fromVersion and toVersions array (empty if
-            component is already optimal)
+            component is already optimal or all candidates violate policy)
         '400':
           content:
             '*/*':
