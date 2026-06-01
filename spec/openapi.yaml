@@ -438,10 +438,7 @@ components:
       description: Request body containing the component PURL
       properties:
         purl:
-          minLength: 1
           type: string
-      required:
-      - purl
       type: object
     MethodSignature:
       properties:
@@ -672,10 +669,7 @@ components:
       description: Request body containing the component PURL
       properties:
         purl:
-          minLength: 1
           type: string
-      required:
-      - purl
       type: object
     RecommendationResponse:
       properties:
@@ -945,7 +939,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Sonatype Guide API
-  version: '202605'
+  version: '202606'
 openapi: 3.1.0
 paths:
   /api/v3/authorized/component-report:
@@ -2041,8 +2035,8 @@ paths:
       description: Retrieves version upgrade recommendations for a component specified
         by PURL. Analyzes security vulnerabilities, stability metrics, and policy
         compliance to suggest optimal upgrade paths. Only policy-compliant versions
-        are returned. If a PURL cannot be parsed or policy evaluation fails, the response
-        is BLOCKED_BY_POLICY (fail-closed).
+        are returned. If policy evaluation fails, the response is BLOCKED_BY_POLICY
+        (fail-closed).
       operationId: getRecommendations
       requestBody:
         content:
@@ -2062,13 +2056,13 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
+                $ref: '#/components/schemas/RecommendationResponse'
           description: Invalid request - malformed PURL or missing required parameters
         '404':
           content:
             '*/*':
               schema:
-                type: object
+                $ref: '#/components/schemas/RecommendationResponse'
           description: Component not found or no recommendations available
       summary: Get version upgrade recommendations
       tags:
