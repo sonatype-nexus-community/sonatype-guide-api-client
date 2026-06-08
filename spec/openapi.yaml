@@ -1,18 +1,6 @@
 components:
   schemas:
-    AffectedComponentVersion:
-      properties:
-        ecosystem:
-          type: string
-        fullPackageName:
-          type: string
-        namespace:
-          type: string
-        packageName:
-          type: string
-        version:
-          type: string
-      type: object
+    AffectedComponentVersion: {}
     ApiSearchResponse:
       properties:
         aggregations:
@@ -162,119 +150,15 @@ components:
       required:
       - emails
       type: object
-    ComponentArtifact:
-      properties:
-        classifier:
-          type: string
-        extension:
-          type: string
-        publishedDate:
-          format: date-time
-          type: string
-        refids:
-          items:
-            $ref: '#/components/schemas/Refid'
-          type: array
-        sha1:
-          type: string
-      type: object
     ComponentDetailDocument:
       properties:
-        categories:
-          items:
-            type: string
-          type: array
-        components:
-          items:
-            $ref: '#/components/schemas/ComponentArtifact'
-          type: array
-        directDependencies:
-          items:
-            type: string
-          type: array
-        dts:
-          $ref: '#/components/schemas/DtsDimensions'
-        format:
-          type: string
-        isMalware:
+        malware:
           type: boolean
-        latestStable:
-          type: boolean
-        licenses:
-          items:
-            $ref: '#/components/schemas/ComponentLicense'
-          type: array
-        maxCvss:
-          format: double
-          type: number
-        name:
-          type: string
-        namespace:
-          type: string
-        originId:
-          type: string
-        policyCompliance:
-          $ref: '#/components/schemas/PolicyComplianceResult'
-        publishedDate:
-          format: date-time
-          type: string
-        registryLink:
-          type: string
-        version:
-          type: string
-        versionScore:
-          format: int32
-          type: integer
       type: object
     ComponentDocument:
       properties:
-        categories:
-          items:
-            type: string
-          type: array
-        dts:
-          $ref: '#/components/schemas/DtsDimensions'
-        format:
-          type: string
-        isMalware:
+        malware:
           type: boolean
-        latestStable:
-          type: boolean
-        licenses:
-          items:
-            $ref: '#/components/schemas/ComponentLicense'
-          type: array
-        maxCvss:
-          format: double
-          type: number
-        name:
-          type: string
-        namespace:
-          type: string
-        originId:
-          type: string
-        policyCompliance:
-          $ref: '#/components/schemas/PolicyComplianceResult'
-        publishedDate:
-          format: date-time
-          type: string
-        registryLink:
-          type: string
-        version:
-          type: string
-        versionScore:
-          format: int32
-          type: integer
-      type: object
-    ComponentLicense:
-      properties:
-        licenseName:
-          type: string
-        licenseThreatGroup:
-          type: string
-        licenseThreatLevel:
-          format: int32
-          type: integer
       type: object
     ComponentReport_Get:
       properties:
@@ -451,6 +335,13 @@ components:
             format: int32
             type: integer
           type: array
+      type: object
+    OnboardingBannerStatusDTO:
+      properties:
+        reason:
+          type: string
+        showBanner:
+          type: boolean
       type: object
     OrganizationDTO:
       properties:
@@ -636,15 +527,6 @@ components:
             $ref: '#/components/schemas/PolicyConditionResult'
           type: array
       type: object
-    PolicyComplianceResult:
-      properties:
-        compliant:
-          type: boolean
-        conditions:
-          items:
-            $ref: '#/components/schemas/PolicyConditionResult'
-          type: array
-      type: object
     PolicyConditionResult:
       properties:
         conditionId:
@@ -715,6 +597,9 @@ components:
             format: int32
             type: integer
           type: object
+        maxSeverity:
+          format: double
+          type: number
         policyCompliance:
           $ref: '#/components/schemas/PolicyCompliance'
         transitiveVulnerabilities:
@@ -735,16 +620,6 @@ components:
           type: string
         type:
           type: string
-      type: object
-    Refid:
-      properties:
-        isMalware:
-          type: boolean
-        refid:
-          type: string
-        severity:
-          format: double
-          type: number
       type: object
     UpdateOrganizationRequest:
       properties:
@@ -857,46 +732,8 @@ components:
       type: object
     VulnerabilityDocument:
       properties:
-        affectedEcosystems:
-          items:
-            type: string
-          type: array
-        aliases:
-          items:
-            type: string
-          type: array
-        cvssSeverity:
-          format: double
-          type: number
-        cwes:
-          items:
-            type: string
-          type: array
-        epss:
-          format: double
-          type: number
-        isMalware:
+        malware:
           type: boolean
-        kev:
-          type: boolean
-        publishedAt:
-          format: date-time
-          type: string
-        researchType:
-          type: string
-        sonatypeCvssSeverity:
-          format: double
-          type: number
-        sonatypeCwes:
-          items:
-            type: string
-          type: array
-        source:
-          type: string
-        summary:
-          type: string
-        vulnId:
-          type: string
       type: object
     VulnerableMethod:
       properties:
@@ -2421,6 +2258,45 @@ paths:
       security:
       - bearer-jwt: []
       summary: Leave organization
+      tags:
+      - Current User Organization
+  /users/me/organization/onboarding-banner:
+    delete:
+      description: Marks the onboarding banner as dismissed for the organization.
+        The banner will not reappear for any member of the organization across sessions
+        or devices.
+      operationId: dismissOnboardingBanner
+      responses:
+        '204':
+          description: Banner dismissed successfully
+        '401':
+          description: Invalid JWT token
+        '404':
+          description: Organization not found
+      security:
+      - bearer-jwt: []
+      summary: Dismiss onboarding banner
+      tags:
+      - Current User Organization
+    get:
+      description: Retrieves the onboarding banner visibility status based on organization
+        plan, member count, and dismiss state. Returns showBanner=false when user
+        has no organization.
+      operationId: getOnboardingBannerStatus
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: Banner status retrieved successfully
+        '401':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OnboardingBannerStatusDTO'
+          description: Invalid JWT token
+      security:
+      - bearer-jwt: []
+      summary: Get onboarding banner status
       tags:
       - Current User Organization
   /users/me/tokens:
