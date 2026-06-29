@@ -1332,6 +1332,7 @@ paths:
         required: false
         schema:
           format: int32
+          minimum: 0
           type: integer
       - description: 'Pagination limit (default: 20)'
         in: query
@@ -1584,6 +1585,7 @@ paths:
         required: false
         schema:
           format: int32
+          minimum: 0
           type: integer
       - description: 'Pagination limit (default: 20)'
         in: query
@@ -1727,6 +1729,7 @@ paths:
         required: false
         schema:
           format: int32
+          minimum: 0
           type: integer
       - description: 'Pagination limit (default: 20)'
         in: query
@@ -2468,6 +2471,7 @@ paths:
         required: false
         schema:
           format: int32
+          minimum: 0
           type: integer
       - description: 'Pagination limit (default: 50)'
         in: query
