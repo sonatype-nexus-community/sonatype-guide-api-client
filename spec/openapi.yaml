@@ -1,6 +1,11 @@
 components:
   schemas:
     AffectedComponentVersion: {}
+    AgenticModeAccessResponse:
+      properties:
+        enabled:
+          type: boolean
+      type: object
     ApiSearchResponse:
       properties:
         aggregations:
@@ -956,6 +961,20 @@ info:
   version: '202607'
 openapi: 3.1.0
 paths:
+  /api/agp/agentic-mode-access:
+    get:
+      operationId: agenticModeAccess
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AgenticModeAccessResponse'
+          description: OK
+      summary: Whether the caller's org is registered for AgentP agentic mode (org-scoped;
+        gates the AI Fix toggle + AI agent config in the UI)
+      tags:
+      - AGP Governance
   /api/agp/dashboard:
     get:
       operationId: dashboard
