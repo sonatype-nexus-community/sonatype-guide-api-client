@@ -1030,7 +1030,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Sonatype Guide API
-  version: '202607'
+  version: '202608'
 openapi: 3.1.0
 paths:
   /api/agp/agentic-mode-access:
