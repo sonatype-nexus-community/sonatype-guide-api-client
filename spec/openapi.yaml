@@ -875,6 +875,56 @@ components:
       - daysUntilExpiration
       - name
       type: object
+    SecurityEventDetailDocument:
+      properties:
+        advisoryReferenceIds:
+          items:
+            type: string
+          type: array
+        affectedComponentVersionsCount:
+          format: int32
+          type: integer
+        affectedEcosystems:
+          items:
+            type: string
+          type: array
+        cwes:
+          items:
+            type: string
+          type: array
+        detail:
+          type: string
+        eventId:
+          type: string
+        eventSeverityCategory:
+          type: string
+        eventThreatType:
+          type: string
+        guidance:
+          type: string
+        isKnownExploited:
+          type: boolean
+        lastUpdatedDate:
+          format: date-time
+          type: string
+        malwareAttackVectors:
+          items:
+            type: string
+          type: array
+        malwareThreatTypes:
+          items:
+            type: string
+          type: array
+        overview:
+          type: string
+        publishedDate:
+          format: date-time
+          type: string
+        sonatypeBlogUrl:
+          type: string
+        title:
+          type: string
+      type: object
     UpdateOrganizationRequest:
       properties:
         logoUrl:
@@ -2573,6 +2623,33 @@ paths:
       summary: Get version upgrade recommendations
       tags:
       - Recommendations
+  /security-events/{id}:
+    get:
+      description: Retrieves full detail for a specific security event.
+      operationId: getSecurityEventById
+      parameters:
+      - description: Security event ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityEventDetailDocument'
+          description: Security event found
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityEventDetailDocument'
+          description: Security event not found
+      summary: Get security event by ID
+      tags:
+      - Security Events
   /usage:
     get:
       description: Retrieves current credit usage and period information
@@ -3306,8 +3383,6 @@ servers:
 tags:
 - description: Credit usage and billing period APIs
   name: Usage
-- description: Vulnerability search and filtering API
-  name: Vulnerabilities
 - description: Connected repository status with search, filter & paging
   name: AGP Dashboard
 - description: Organization activity log APIs
@@ -3319,8 +3394,6 @@ tags:
   name: AGP Governance
 - description: Personal Access Token management APIs
   name: Current User Tokens
-- description: Component search and filtering API
-  name: Components
 - description: Legacy OSSI API providing backward compatibility. Allows existing OSSI
     users to continue using their OSSI API tokens without creating a new Sonatype
     Guide account. Authentication requires HTTP Basic Auth with OSSI username and
@@ -3328,7 +3401,13 @@ tags:
   name: OSS Index Compatibility
 - description: Billing and subscription management API
   name: Billing
-- description: Current user organization management APIs
-  name: Current User Organization
 - description: Version upgrade recommendation API
   name: Recommendations
+- description: Vulnerability search and filtering API
+  name: Vulnerabilities
+- description: Sonatype Security Events search and detail API
+  name: Security Events
+- description: Component search and filtering API
+  name: Components
+- description: Current user organization management APIs
+  name: Current User Organization
