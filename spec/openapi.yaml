@@ -2650,6 +2650,66 @@ paths:
       summary: Get security event by ID
       tags:
       - Security Events
+  /security-events/{id}/affected-components:
+    get:
+      description: Returns paginated component versions affected by the security event.
+        Returns an empty list for events with no linked CVEs.
+      operationId: getSecurityEventAffectedComponents
+      parameters:
+      - description: Security event ID
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Text search query over component coordinates
+        in: query
+        name: query
+        required: false
+        schema:
+          type: string
+      - description: 'Pagination offset (default: 0)'
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Pagination limit (default: 50)'
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: 'Field to sort by: ecosystem (FULL only), package, version'
+        in: query
+        name: sortField
+        required: false
+        schema:
+          type: string
+      - description: 'Sort order: asc or desc (default: asc)'
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponse'
+          description: Affected components list
+        '404':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiSearchResponseAffectedComponentVersion'
+          description: Security event not found
+      summary: Get affected components for a security event
+      tags:
+      - Security Events
   /usage:
     get:
       description: Retrieves current credit usage and period information
@@ -3346,8 +3406,8 @@ paths:
         schema:
           format: int32
           type: integer
-      - description: 'Field to sort by: ecosystem, package (fullPackageName), version
-          (default: package)'
+      - description: 'Field to sort by: ecosystem, package/component (aliases), version
+          (default: component)'
         in: query
         name: sortField
         required: false
