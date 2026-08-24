@@ -334,6 +334,8 @@ components:
             format: int32
             type: integer
           type: object
+        malware:
+          type: boolean
         maxSeverity:
           format: double
           type: number
@@ -2682,7 +2684,8 @@ paths:
         schema:
           format: int32
           type: integer
-      - description: 'Field to sort by: ecosystem (FULL only), package, version'
+      - description: 'Field to sort by: ecosystem (FULL only), package/packageName,
+          component, version'
         in: query
         name: sortField
         required: false
