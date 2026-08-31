@@ -1321,7 +1321,7 @@ paths:
         '200':
           description: OK
       summary: Reset a repo to the Default Configuration by clearing its config overrides
-        (any org member)
+        (Owner-only)
       tags:
       - AGP Governance
     get:
@@ -1366,7 +1366,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GovernanceWriteResponse'
           description: OK
-      summary: Set per-repo AgentP config overrides (any org member)
+      summary: Set per-repo AgentP config overrides (Owner-only)
       tags:
       - AGP Governance
   /api/agp/repos/{installationRepoId}/effective-config:
@@ -3452,11 +3452,12 @@ tags:
   name: Activity Log
 - description: Onboard multiple repositories in one operation
   name: AGP Bulk Onboarding
-- description: 'AgentP feature governance: org-level Default Configuration is Owner-only;
-    per-repo config and lifecycle actions are available to any org member'
-  name: AGP Governance
 - description: Personal Access Token management APIs
   name: Current User Tokens
+- description: 'AgentP feature governance: Default Configuration and per-repo config
+    writes are Owner-only; reads and per-repo lifecycle actions are available to any
+    org member'
+  name: AGP Governance
 - description: Legacy OSSI API providing backward compatibility. Allows existing OSSI
     users to continue using their OSSI API tokens without creating a new Sonatype
     Guide account. Authentication requires HTTP Basic Auth with OSSI username and
