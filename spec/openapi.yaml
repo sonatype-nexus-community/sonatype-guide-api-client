@@ -8,6 +8,9 @@ components:
       type: object
     ApiSearchResponse:
       properties:
+        actualTotal:
+          format: int64
+          type: integer
         aggregations:
           additionalProperties:
             additionalProperties:
@@ -30,6 +33,9 @@ components:
       type: object
     ApiSearchResponseAffectedComponentVersion:
       properties:
+        actualTotal:
+          format: int64
+          type: integer
         aggregations:
           additionalProperties:
             additionalProperties:
@@ -53,6 +59,9 @@ components:
       type: object
     ApiSearchResponseComponentDetailDocument:
       properties:
+        actualTotal:
+          format: int64
+          type: integer
         aggregations:
           additionalProperties:
             additionalProperties:
@@ -76,6 +85,9 @@ components:
       type: object
     ApiSearchResponseComponentDocument:
       properties:
+        actualTotal:
+          format: int64
+          type: integer
         aggregations:
           additionalProperties:
             additionalProperties:
@@ -99,6 +111,9 @@ components:
       type: object
     ApiSearchResponseVulnerabilityDocument:
       properties:
+        actualTotal:
+          format: int64
+          type: integer
         aggregations:
           additionalProperties:
             additionalProperties:
@@ -480,6 +495,7 @@ components:
           - ORGANIZATION
           - BILLING
           - SUPPORT
+          - INTEGRATION
           type: string
         eventLabel:
           type: string
@@ -497,6 +513,7 @@ components:
           - SUBSCRIPTION_CHANGED
           - SUBSCRIPTION_CANCELED
           - SUPPORT_TICKET_CREATED
+          - SCM_GROUP_SYNCED
           type: string
       type: object
     OrgActivityLogResponse:
@@ -849,6 +866,7 @@ components:
           additionalProperties: {}
           type: object
       required:
+      - expectedVersion
       - overrides
       type: object
     RepoGovernanceView:
@@ -1082,7 +1100,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Sonatype Guide API
-  version: '202608'
+  version: '202609'
 openapi: 3.1.0
 paths:
   /api/agp/agentic-mode-access:
@@ -1313,7 +1331,7 @@ paths:
           type: integer
       - in: query
         name: expectedVersion
-        required: false
+        required: true
         schema:
           format: int64
           type: integer
@@ -1321,7 +1339,7 @@ paths:
         '200':
           description: OK
       summary: Reset a repo to the Default Configuration by clearing its config overrides
-        (Owner-only)
+        (any org member)
       tags:
       - AGP Governance
     get:
@@ -1366,7 +1384,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GovernanceWriteResponse'
           description: OK
-      summary: Set per-repo AgentP config overrides (Owner-only)
+      summary: Set per-repo AgentP config overrides (any org member)
       tags:
       - AGP Governance
   /api/agp/repos/{installationRepoId}/effective-config:
@@ -2918,7 +2936,7 @@ paths:
         Only accessible by organization owners.
       operationId: getActivityLog
       parameters:
-      - description: Filter by category (TOKEN, ORGANIZATION, BILLING, SUPPORT)
+      - description: Filter by category
         in: query
         name: category
         required: false
@@ -2928,6 +2946,7 @@ paths:
           - ORGANIZATION
           - BILLING
           - SUPPORT
+          - INTEGRATION
           type: string
       - description: Start date (YYYY-MM-DD)
         example: '2026-06-01'
@@ -3444,6 +3463,10 @@ servers:
 - description: Production
   url: https://api.guide.sonatype.com
 tags:
+- description: 'AgentP feature governance: org-level Default Configuration writes
+    are Owner-only; per-repo config writes, reads, and per-repo lifecycle actions
+    are available to any org member'
+  name: AGP Governance
 - description: Credit usage and billing period APIs
   name: Usage
 - description: Connected repository status with search, filter & paging
@@ -3454,10 +3477,6 @@ tags:
   name: AGP Bulk Onboarding
 - description: Personal Access Token management APIs
   name: Current User Tokens
-- description: 'AgentP feature governance: Default Configuration and per-repo config
-    writes are Owner-only; reads and per-repo lifecycle actions are available to any
-    org member'
-  name: AGP Governance
 - description: Legacy OSSI API providing backward compatibility. Allows existing OSSI
     users to continue using their OSSI API tokens without creating a new Sonatype
     Guide account. Authentication requires HTTP Basic Auth with OSSI username and
