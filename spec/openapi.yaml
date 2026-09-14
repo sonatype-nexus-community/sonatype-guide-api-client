@@ -287,11 +287,15 @@ components:
           type: string
         lastRunStatus:
           type: string
+        provider:
+          type: string
         repoFullName:
           type: string
         repoId:
           format: int64
           type: integer
+        repoUrl:
+          type: string
         runCount:
           format: int32
           type: integer
@@ -1137,6 +1141,14 @@ paths:
           type: string
       - in: query
         name: status
+        required: false
+        schema:
+          type: string
+      - description: Restrict to one SCM provider (e.g. `github`). Omit for every
+          provider the caller has connected. The bulk-onboarding picker sends `github`,
+          since only GitHub repos can be onboarded through it.
+        in: query
+        name: provider
         required: false
         schema:
           type: string
