@@ -1,11 +1,6 @@
 components:
   schemas:
     AffectedComponentVersion: {}
-    AgenticModeAccessResponse:
-      properties:
-        enabled:
-          type: boolean
-      type: object
     ApiSearchResponse:
       properties:
         actualTotal:
@@ -135,50 +130,6 @@ components:
           format: int64
           type: integer
       type: object
-    BillingDTO:
-      properties:
-        billingPeriodEnd:
-          format: date
-          type: string
-        billingPeriodStart:
-          format: date
-          type: string
-        monthlyCost:
-          format: double
-          type: number
-        paymentMethod:
-          type: string
-        status:
-          enum:
-          - FUTURE
-          - IN_TRIAL
-          - ACTIVE
-          - NON_RENEWING
-          - PAUSED
-          - CANCELLED
-          - TRANSFERRED
-          type: string
-      type: object
-    BulkOnboardRequest:
-      properties:
-        installationRepoIds:
-          items:
-            format: int64
-            type: integer
-          maxItems: 500
-          minItems: 0
-          type: array
-        merge:
-          type: boolean
-      required:
-      - installationRepoIds
-      type: object
-    BulkOnboardResponse:
-      properties:
-        jobId:
-          format: int64
-          type: integer
-      type: object
     BulkRemoveMembersRequest:
       properties:
         emails:
@@ -266,48 +217,6 @@ components:
           format: date
           type: string
       type: object
-    DashboardPageResponse:
-      properties:
-        rows:
-          items:
-            $ref: '#/components/schemas/DashboardRowResponse'
-          type: array
-        total:
-          format: int32
-          type: integer
-      type: object
-    DashboardRowResponse:
-      properties:
-        archived:
-          type: boolean
-        installationRepoId:
-          format: int64
-          type: integer
-        lastRunAt:
-          type: string
-        lastRunStatus:
-          type: string
-        provider:
-          type: string
-        repoFullName:
-          type: string
-        repoId:
-          format: int64
-          type: integer
-        repoUrl:
-          type: string
-        runCount:
-          format: int32
-          type: integer
-        setupPrUrl:
-          type: string
-        status:
-          type: string
-        statusLabel:
-          type: string
-        workflowPresent:
-          type: boolean
-      type: object
     DtsDimensions:
       properties:
         age:
@@ -328,11 +237,6 @@ components:
         security:
           format: int32
           type: integer
-      type: object
-    EffectiveConfigYamlResponse:
-      properties:
-        yaml:
-          type: string
       type: object
     FromVersion:
       properties:
@@ -372,12 +276,6 @@ components:
             $ref: '#/components/schemas/RecommendationVulnerableMethod'
           type: array
       type: object
-    GovernanceWriteResponse:
-      properties:
-        configVersion:
-          format: int64
-          type: integer
-      type: object
     InviteUsersRequest:
       properties:
         emails:
@@ -387,69 +285,6 @@ components:
           type: array
       required:
       - emails
-      type: object
-    Invoice:
-      properties:
-        amount:
-          format: double
-          type: number
-        date:
-          format: date
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-        pdfUrl:
-          type: string
-        status:
-          type: string
-        subscriptionId:
-          type: string
-        totalCredits:
-          format: double
-          type: number
-        usedCredits:
-          format: double
-          type: number
-      type: object
-    ItemProgress:
-      properties:
-        installationRepoId:
-          format: int64
-          type: integer
-        reason:
-          type: string
-        repoFullName:
-          type: string
-        setupPrUrl:
-          type: string
-        status:
-          type: string
-      type: object
-    JobProgress:
-      properties:
-        delivered:
-          format: int32
-          type: integer
-        failed:
-          format: int32
-          type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/ItemProgress'
-          type: array
-        jobId:
-          format: int64
-          type: integer
-        skipped:
-          format: int32
-          type: integer
-        status:
-          type: string
-        total:
-          format: int32
-          type: integer
       type: object
     LatestVersionRequest:
       description: Request body containing the component PURL
@@ -468,11 +303,6 @@ components:
             format: int32
             type: integer
           type: array
-      type: object
-    OnboardingAccessResponse:
-      properties:
-        canOnboard:
-          type: boolean
       type: object
     OnboardingBannerStatusDTO:
       properties:
@@ -538,35 +368,6 @@ components:
         totalPages:
           format: int32
           type: integer
-      type: object
-    OrgConfigRequest:
-      properties:
-        config:
-          additionalProperties: {}
-          type: object
-        developerAccessEnabled:
-          type: boolean
-        expectedVersion:
-          format: int64
-          type: integer
-      required:
-      - config
-      type: object
-    OrgGovernanceView:
-      properties:
-        config:
-          additionalProperties: {}
-          type: object
-        configVersion:
-          format: int64
-          type: integer
-        developerAccessEnabled:
-          type: boolean
-      type: object
-    OrgOnboardingActivity:
-      properties:
-        othersOnboarding:
-          type: boolean
       type: object
     OrganizationDTO:
       properties:
@@ -716,33 +517,6 @@ components:
           format: date
           type: string
       type: object
-    PlanDTO:
-      properties:
-        billingPeriod:
-          enum:
-          - PER_MONTH
-          - PER_YEAR
-          - CUSTOM
-          type: string
-        chargebeeItemId:
-          type: string
-        displayName:
-          type: string
-        isCurrentPlan:
-          type: boolean
-        monthlyCredits:
-          type: number
-        planTier:
-          enum:
-          - FREE
-          - PRO
-          - ENTERPRISE
-          - TEAM
-          type: string
-        price:
-          format: double
-          type: number
-      type: object
     PolicyCompliance:
       properties:
         compliant:
@@ -848,43 +622,6 @@ components:
         link:
           type: string
         type:
-          type: string
-      type: object
-    RemovalPrResult:
-      properties:
-        merged:
-          type: boolean
-        message:
-          type: string
-        outcome:
-          type: string
-        prUrl:
-          type: string
-      type: object
-    RepoConfigRequest:
-      properties:
-        expectedVersion:
-          format: int64
-          type: integer
-        overrides:
-          additionalProperties: {}
-          type: object
-      required:
-      - expectedVersion
-      - overrides
-      type: object
-    RepoGovernanceView:
-      properties:
-        configVersion:
-          format: int64
-          type: integer
-        orgConfig:
-          additionalProperties: {}
-          type: object
-        overrides:
-          additionalProperties: {}
-          type: object
-        repoFullName:
           type: string
       type: object
     RotateTokenRequest:
@@ -1107,378 +844,6 @@ info:
   version: '202609'
 openapi: 3.1.0
 paths:
-  /api/agp/agentic-mode-access:
-    get:
-      operationId: agenticModeAccess
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/AgenticModeAccessResponse'
-          description: OK
-      summary: Whether the caller's org is registered for AgentP agentic mode (org-scoped;
-        gates the AI Fix toggle + AI agent config in the UI)
-      tags:
-      - AGP Governance
-  /api/agp/dashboard:
-    get:
-      operationId: dashboard
-      parameters:
-      - description: Name filter (canonical). Takes precedence over the deprecated
-          `search`.
-        in: query
-        name: q
-        required: false
-        schema:
-          type: string
-      - deprecated: true
-        description: Deprecated alias for `q`; ignored when `q` is also provided.
-        in: query
-        name: search
-        required: false
-        schema:
-          type: string
-      - in: query
-        name: status
-        required: false
-        schema:
-          type: string
-      - description: Restrict to one SCM provider (e.g. `github`). Omit for every
-          provider the caller has connected. The bulk-onboarding picker sends `github`,
-          since only GitHub repos can be onboarded through it.
-        in: query
-        name: provider
-        required: false
-        schema:
-          type: string
-      - in: query
-        name: sort
-        required: false
-        schema:
-          default: asc
-          type: string
-      - in: query
-        name: page
-        required: false
-        schema:
-          default: 0
-          format: int32
-          type: integer
-      - in: query
-        name: pageSize
-        required: false
-        schema:
-          default: 25
-          format: int32
-          type: integer
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/DashboardPageResponse'
-          description: OK
-      summary: List connected repositories with status (search, filter & paging)
-      tags:
-      - AGP Dashboard
-  /api/agp/dashboard/candidate-ids:
-    get:
-      operationId: candidateIds
-      parameters:
-      - in: query
-        name: q
-        required: false
-        schema:
-          type: string
-      - in: query
-        name: search
-        required: false
-        schema:
-          type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                items:
-                  format: int64
-                  type: integer
-                type: array
-          description: OK
-      summary: Ids of all onboarding-candidate repositories matching the name filter
-      tags:
-      - AGP Dashboard
-  /api/agp/dashboard/onboarding-access:
-    get:
-      operationId: onboardingAccess
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OnboardingAccessResponse'
-          description: OK
-      summary: Whether the caller may onboard repositories
-      tags:
-      - AGP Dashboard
-  /api/agp/onboarding/bulk:
-    post:
-      operationId: start
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BulkOnboardRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/BulkOnboardResponse'
-          description: OK
-      summary: Start bulk onboarding for selected repositories
-      tags:
-      - AGP Bulk Onboarding
-  /api/agp/onboarding/bulk/active:
-    get:
-      operationId: active
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/JobProgress'
-          description: OK
-      summary: Get the caller's currently-running bulk onboarding job, if any
-      tags:
-      - AGP Bulk Onboarding
-  /api/agp/onboarding/bulk/org-activity:
-    get:
-      operationId: orgActivity
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OrgOnboardingActivity'
-          description: OK
-      summary: Whether another org member currently has a bulk onboarding job in flight
-      tags:
-      - AGP Bulk Onboarding
-  /api/agp/onboarding/bulk/{jobId}:
-    get:
-      operationId: progress
-      parameters:
-      - in: path
-        name: jobId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/JobProgress'
-          description: OK
-      summary: Get bulk onboarding job progress
-      tags:
-      - AGP Bulk Onboarding
-  /api/agp/org/config:
-    get:
-      operationId: getOrgConfig
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OrgGovernanceView'
-          description: OK
-      summary: 'Get the AgentP Default Configuration (read: any org member)'
-      tags:
-      - AGP Governance
-    put:
-      operationId: updateOrgConfig
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrgConfigRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/GovernanceWriteResponse'
-          description: OK
-      summary: Set the AgentP Default Configuration + developer-access flag (Owner-only)
-      tags:
-      - AGP Governance
-  /api/agp/org/effective-config:
-    get:
-      operationId: getOrgEffectiveConfig
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/EffectiveConfigYamlResponse'
-          description: OK
-      summary: Get the rendered Default Configuration agp.yml (defaults + org) (Owner-only)
-      tags:
-      - AGP Governance
-  /api/agp/repos/{installationRepoId}/config:
-    delete:
-      operationId: deleteRepoConfig
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      - in: query
-        name: expectedVersion
-        required: true
-        schema:
-          format: int64
-          type: integer
-      responses:
-        '200':
-          description: OK
-      summary: Reset a repo to the Default Configuration by clearing its config overrides
-        (any org member)
-      tags:
-      - AGP Governance
-    get:
-      operationId: getRepoConfig
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/RepoGovernanceView'
-          description: OK
-      summary: Get a repo's AgentP config overrides + inherited Default Configuration
-        + version (any org member)
-      tags:
-      - AGP Governance
-    put:
-      operationId: updateRepoConfig
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RepoConfigRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/GovernanceWriteResponse'
-          description: OK
-      summary: Set per-repo AgentP config overrides (any org member)
-      tags:
-      - AGP Governance
-  /api/agp/repos/{installationRepoId}/effective-config:
-    get:
-      operationId: getRepoEffectiveConfig
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/EffectiveConfigYamlResponse'
-          description: OK
-      summary: Get the rendered effective agp.yml for a repo (defaults + org + overrides)
-        (any org member)
-      tags:
-      - AGP Governance
-  /api/agp/repos/{installationRepoId}/pause:
-    post:
-      operationId: pause
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      responses:
-        '200':
-          description: OK
-      summary: Pause AgentP for a repository (any org member)
-      tags:
-      - AGP Governance
-  /api/agp/repos/{installationRepoId}/removal-pr:
-    post:
-      operationId: openRemovalPr
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      - in: query
-        name: merge
-        required: false
-        schema:
-          default: false
-          type: boolean
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/RemovalPrResult'
-          description: OK
-      summary: Open (and optionally merge) a PR removing the AgentP workflow file
-        from a repository (any org member)
-      tags:
-      - AGP Governance
-  /api/agp/repos/{installationRepoId}/resume:
-    post:
-      operationId: resume
-      parameters:
-      - in: path
-        name: installationRepoId
-        required: true
-        schema:
-          format: int64
-          type: integer
-      responses:
-        '200':
-          description: OK
-      summary: Resume AgentP for a repository (any org member)
-      tags:
-      - AGP Governance
   /api/v3/authorized/component-report:
     post:
       description: 'Retrieves component reports for multiple Package URLs (PURLs)
@@ -1905,106 +1270,6 @@ paths:
       summary: Get API version
       tags:
       - OSS Index Compatibility
-  /billing:
-    get:
-      description: Retrieves billing details including cost, period, and payment method
-      operationId: getBilling
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingDTO'
-          description: Billing info retrieved
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingDTO'
-          description: User is not an organization owner
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BillingDTO'
-          description: Subscription not found
-      summary: Get billing information
-      tags:
-      - Billing
-  /billing/invoices:
-    get:
-      description: Retrieves the complete invoice history for the current user. Returns
-        a list of all invoices with details including invoice ID, date, description,
-        amount, payment status, PDF link, and credit usage for each billing period.
-      operationId: getUserInvoiceHistory
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                example:
-                  invoices:
-                  - amount: 1200.0
-                    creditsTotal: 5000
-                    creditsUsed: 3000
-                    date: '2024-10-31'
-                    description: Teams Plan (Annual)
-                    id: inv_2024_001
-                    pdfUrl: /invoices/inv_2024_001.pdf
-                    status: paid
-                type: string
-          description: Invoice history retrieved successfully
-        '403':
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Invoice'
-                type: array
-          description: User is not an organization owner and cannot access billing
-            information
-      summary: Get user invoice history
-      tags:
-      - Billing
-  /billing/invoices/{invoiceId}/pdf:
-    get:
-      description: Redirects to a temporary Chargebee download URL for the invoice
-        PDF. The URL is short-lived and should be consumed immediately.
-      operationId: getInvoicePdf
-      parameters:
-      - in: path
-        name: invoiceId
-        required: true
-        schema:
-          type: string
-      responses:
-        '302':
-          description: Redirect to PDF download URL
-        '403':
-          description: User is not an organization owner
-        '404':
-          description: Invoice not found or PDF unavailable
-      summary: Download invoice PDF
-      tags:
-      - Billing
-  /billing/plans:
-    get:
-      description: Retrieves all active subscription plans with dynamic Chargebee
-        pricing. Supports both authenticated and unauthenticated requests. When authenticated,
-        the user's current plan is marked.
-      operationId: getPlans
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/PlanDTO'
-                type: array
-          description: Plans retrieved
-      summary: Get all available plans
-      tags:
-      - Billing
   /components/dependencies:
     get:
       description: Retrieves all direct dependencies of a specific component using
@@ -3475,34 +2740,24 @@ servers:
 - description: Production
   url: https://api.guide.sonatype.com
 tags:
-- description: 'AgentP feature governance: org-level Default Configuration writes
-    are Owner-only; per-repo config writes, reads, and per-repo lifecycle actions
-    are available to any org member'
-  name: AGP Governance
 - description: Credit usage and billing period APIs
   name: Usage
-- description: Connected repository status with search, filter & paging
-  name: AGP Dashboard
+- description: Vulnerability search and filtering API
+  name: Vulnerabilities
+- description: Sonatype Security Events search and detail API
+  name: Security Events
 - description: Organization activity log APIs
   name: Activity Log
-- description: Onboard multiple repositories in one operation
-  name: AGP Bulk Onboarding
 - description: Personal Access Token management APIs
   name: Current User Tokens
+- description: Component search and filtering API
+  name: Components
 - description: Legacy OSSI API providing backward compatibility. Allows existing OSSI
     users to continue using their OSSI API tokens without creating a new Sonatype
     Guide account. Authentication requires HTTP Basic Auth with OSSI username and
     API token.
   name: OSS Index Compatibility
-- description: Billing and subscription management API
-  name: Billing
-- description: Version upgrade recommendation API
-  name: Recommendations
-- description: Vulnerability search and filtering API
-  name: Vulnerabilities
-- description: Sonatype Security Events search and detail API
-  name: Security Events
-- description: Component search and filtering API
-  name: Components
 - description: Current user organization management APIs
   name: Current User Organization
+- description: Version upgrade recommendation API
+  name: Recommendations
